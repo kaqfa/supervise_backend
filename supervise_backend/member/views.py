@@ -1,3 +1,60 @@
-from django.shortcuts import render
+"""View untuk handling request student dan supervisor"""
 
-# Create your views here.
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
+@api_view(['POST'])
+def student_register(request):
+    """*appkey, *username, *password, *nim, *name, address, handphone, email"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def supervisor_register(request):
+    """*appkey, *username, *password, *npp, *name, address, handphone, email"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['GET'])
+def get_student(request):
+    """*username, *appkey, *token"""
+    return Response({'code':'1', 'message':'the message', 'data':'student data'})
+
+@api_view(['GET'])
+def get_all_students(request):
+    """*appkey, *token"""
+    return Response({'code':'1', 'message':'the message', 'data':'students data'})
+
+@api_view(['GET'])
+def get_all_supervisors(request):
+    """*appkey, *token"""
+    return Response({'code':'1', 'message':'the message', 'data':'supervisors data'})
+
+@api_view(['GET'])
+def get_supervisors(request):
+    """*username, *appkey, *token"""
+    return Response({'code':'1', 'message':'the message', 'data':'supervisor data'})
+
+@api_view(['POST'])
+def save_thesis(request):
+    """*appkey, *token, *topic, *title, *description, *field [array]"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def student_propose(request):
+    """*appkey, *token, *supervisor"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def input_code(request):
+    """*appkey, *token, *code"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def create_task(request):
+    """*appkey, *token, *student, *name, description, duration, file"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['GET'])
+def student_progress(request):
+    """*appkey, *token"""
+    return Response({'code':'1', 'message':'the message', 'data':'progress data'})
