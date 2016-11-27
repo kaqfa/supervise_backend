@@ -50,11 +50,31 @@ def input_code(request):
     return Response({'code':'1', 'message':'the message'})
 
 @api_view(['POST'])
-def create_task(request):
-    """*appkey, *token, *student, *name, description, duration, file"""
+def respond_proposal(request):
+    """*appkey, *token, *student, *code"""
     return Response({'code':'1', 'message':'the message'})
 
-@api_view(['GET'])
-def student_progress(request):
-    """*appkey, *token"""
-    return Response({'code':'1', 'message':'the message', 'data':'progress data'})
+@api_view(['POST'])
+def save_expertise(request):
+    """*appkey, *token, *name, description"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def delete_expertise(request):
+    """*appkey, *token, *name"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def is_student_supervisor(request):
+    """*appkey, *token, *student"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def student_profile(request):
+    """*appkey, *token, address, handphone, email"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def supervisor_profile(request):
+    """*appkey, *token, address, handphone, email, *field[]"""
+    return Response({'code':'1', 'message':'the message'})
