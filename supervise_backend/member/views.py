@@ -30,7 +30,7 @@ def get_all_supervisors(request):
     return Response({'code':'1', 'message':'the message', 'data':'supervisors data'})
 
 @api_view(['GET'])
-def get_supervisors(request):
+def get_supervisor(request):
     """*username, *appkey, *token"""
     return Response({'code':'1', 'message':'the message', 'data':'supervisor data'})
 
@@ -78,3 +78,40 @@ def student_profile(request):
 def supervisor_profile(request):
     """*appkey, *token, address, handphone, email, *field[]"""
     return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def is_username_exist(request):
+    """*appkey, *username"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def login(request):
+    """*appkey, *username, *password"""
+    return Response({'code':'1', 'message':'the message',
+                     'username':'the user', 'token':'the token'})
+
+@api_view(['GET'])
+def search_by_expertise(request):
+    """*appkey, *token, *keysearch"""
+    return Response({'code':'1', 'message':'the message', 'data':'the supervisors'})
+
+@api_view(['GET'])
+def graduated_student(request):
+    """*appkey, *username, *supervisor"""
+    return Response({'code':'1', 'message':'the message', 'data':'the students'})
+
+@api_view(['GET'])
+def ungraduated_student(request):
+    """*appkey, *username, *supervisor"""
+    return Response({'code':'1', 'message':'the message', 'data':'the students'})
+
+@api_view(['POST'])
+def reset_password(request):
+    """*appkey, *token, *old_password, *new_password"""
+    return Response({'code':'1', 'message':'the message',
+                     'username':'the user', 'token':'the token'})
+
+@api_view(['GET'])
+def get_username(request):
+    """*appkey, *token"""
+    return Response({'code':'1', 'message':'the message', 'data':'user: student / supervisor'})

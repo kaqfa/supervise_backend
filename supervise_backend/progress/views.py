@@ -4,6 +4,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 
+@api_view(['GET'])
+def get_task(request):
+    """*appkey, *token, *student, *id_task"""
+    return Response({'code':'1', 'message':'the message', 'data':'the task'})
+
 @api_view(['POST'])
 def create_task(request):
     """*appkey, *token, *student, *name, description, duration, file"""
@@ -22,6 +27,21 @@ def delete_task(request):
 @api_view(['POST'])
 def validate_task(request):
     """*appkey, *token, *student, *id_task"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def create_comment(request):
+    """*appkey, *token, *student, *id_task, *type, text, file"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def delete_comment(request):
+    """*appkey, *token, *student, *id_task, *id_comment"""
+    return Response({'code':'1', 'message':'the message'})
+
+@api_view(['POST'])
+def create_work(request):
+    """*appkey, *token, *student, *id_task, file"""
     return Response({'code':'1', 'message':'the message'})
 
 @api_view(['GET'])
