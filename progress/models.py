@@ -44,5 +44,5 @@ class Comment(models.Model):
     by = models.ForeignKey(Member)
     type = models.CharField(max_length=1, default='1')
     text = models.TextField()
-    file = model.ManyToManyField(MediaFile, null=True)
-    post_date = model.DateField(auto_now_add=True)
+    file = models.ManyToManyField(MediaFile, null=True)
+    post_date = models.DateField(auto_now_add=True)
