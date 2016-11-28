@@ -13,6 +13,11 @@ def foo_view(request):
     return Response({'code':'1', 'message':'this is just a foo', 'data':'no data in get'})
 
 @api_view(['GET'])
+def register_app(request):
+    """*appname"""
+    return Response({'code':'1', 'message':'the key'})
+
+@api_view(['GET'])
 def get_thesis_list(request):
     """*appkey"""
     if request.method == 'POST':

@@ -44,6 +44,7 @@ urlpatterns = [
     url(r'^f/search', memviews.search_by_expertise),
     url(r'^f/searchfield', appview.search_expertise),
     url(r'^g/getlistthesis', appview.get_thesis_list),
+    url(r'^g/app', appview.register_app),
     url(r'^s/claim', progviews.submit_final),
     url(r'^s/editprofil', memviews.student_profile),
     url(r'^s/get', memviews.get_student),
