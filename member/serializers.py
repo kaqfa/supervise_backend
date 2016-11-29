@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import Member
 
 class RegisterSerializer(serializers.ModelSerializer):
     """*appkey, *username, *password, *nim, *name, address, handphone, email"""
@@ -13,6 +14,6 @@ class RegisterSerializer(serializers.ModelSerializer):
     # email = serializers.EmailField()
 
     class Meta:
-        model: Member
-        fields = (username, password, nim, npp, name, address, phone, email)
+        model= Member
+        fields = ('username', 'password', 'nim', 'npp', 'name', 'address', 'phone', 'email')
             

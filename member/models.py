@@ -9,17 +9,18 @@ class Expertise(models.Model):
 
 class Member(models.Model):
     """Pengganti User, include student dan supervisor"""
-    username = models.CharField(min_length=5, max_length=50, unique=True)
-    password = models.CharField(min_length=5, max_length=100)
+    username = models.CharField(max_length=50, unique=True)
+    password = models.CharField(max_length=100)
     nim = models.CharField(max_length=20, null=True)
     npp = models.CharField(max_length=20, null=True)
     name = models.CharField(max_length=50)
     address = models.TextField(null=True)
     phone = models.CharField(max_length=20, null=True)
     email = models.CharField(max_length=200)
-    expertise = models.ManyToManyField(Expertise, null=True)
+    expertise = models.ManyToManyField(Expertise)
     level = models.CharField(max_length=2, default='st')
-    status = models.CharField(max_length=1, default='a')    
+    status = models.CharField(max_length=1, default='a')
+    supervisor = models.ForeignKey("self", null=True)
 
 
 class MemberToken(models.Model):

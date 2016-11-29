@@ -13,8 +13,8 @@ class Thesis(models.Model):
     title = models.CharField(max_length=255)
     abstract = models.TextField(null=True)
     student = models.ForeignKey(Member)
-    field = models.ManyToManyField(Expertise, null=True)
-    files = models.ManyToManyField(MediaFile, null=True)
+    field = models.ManyToManyField(Expertise)
+    files = models.ManyToManyField(MediaFile)
     save_date = models.DateField(auto_now_add=True)
 
 
@@ -26,10 +26,11 @@ class Task(models.Model):
 
 
 class Template(models.Model):
+    supervisor = models.ForeignKey(Member, null=True)
     code = models.CharField(max_length=5)
     name = models.CharField(max_length=100)
     description = models.TextField(null=True)
-    task = models.ManyToManyField(Task, null=True)
+    task = models.ManyToManyField(Task)
 
 
 class StudentTask(models.Model):
@@ -42,8 +43,9 @@ class StudentTask(models.Model):
 
 class Comment(models.Model):
     by = models.ForeignKey(Member)
+    student_task = models.ForeignKey(StudentTask, null=True)
     type = models.CharField(max_length=1, default='1')
     text = models.TextField()
-    file = models.ManyToManyField(MediaFile, null=True)
+    file = models.ManyToManyField(MediaFile)
     post_date = models.DateField(auto_now_add=True)
     
