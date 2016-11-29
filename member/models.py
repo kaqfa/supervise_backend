@@ -9,8 +9,8 @@ class Expertise(models.Model):
 
 class Member(models.Model):
     """Pengganti User, include student dan supervisor"""
-    username = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
+    username = models.CharField(min_length=5, max_length=50, unique=True)
+    password = models.CharField(min_length=5, max_length=100)
     nim = models.CharField(max_length=20, null=True)
     npp = models.CharField(max_length=20, null=True)
     name = models.CharField(max_length=50)

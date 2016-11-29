@@ -2,12 +2,18 @@
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .serializers import RegisterSerializer
 
 
 @api_view(['POST'])
 def student_register(request):
     """*appkey, *username, *password, *nim, *name, address, handphone, email"""
-    return Response({'code':'1', 'message':'the message'})
+    serializer = RegisterSerializer(request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'code':'1', 'message':serializer})
+    else:
+        return Response({'code':'0', 'message':'something wrong'})
 
 @api_view(['POST'])
 def supervisor_register(request):
