@@ -1,19 +1,19 @@
 from rest_framework import serializers
+from app.models import Application
 from .models import Member
 
 class RegisterSerializer(serializers.ModelSerializer):
-    """*appkey, *username, *password, *nim, *name, address, handphone, email"""
-    appkey = serializers.CharField(max_length=20)
-    # username = serializers.CharField(min_length=4, max_length=20)
-    # password = serializers.CharField(min_length=5, max_length=30)
     # nim = serializers.CharField(max_length=20, allow_null=True)
     # npp = serializers.CharField(max_length=20, allow_null=True)
-    # name = serializers.CharField(max_length=50)
-    # address = serializers.CharField(max_length=255, allow_null=True)
-    # handphone = serializers.CharField(max_length=25, allow_null=True)
-    # email = serializers.EmailField()
-
     class Meta:
         model= Member
-        fields = ('username', 'password', 'nim', 'npp', 'name', 'address', 'phone', 'email')
-            
+        fields = ('username', 'password', 'nim', 'npp', 'name', 'address', 'phone', 'email', 'level')
+
+
+    def validate(self, attrs):
+        if attrs.get('nim') is None and attrs.get('level') == 's':
+            raise serializers.ValidationError("Pendaftaran mahasiswa harus menggunakan NIM")
+        elif attrs.get('npp') is None and attrs.get('level') == 'sp':
+            raise serializers.ValidationError("Pendaftaran pembimbing harus menggunakan NPP")
+        else:
+            return attrs

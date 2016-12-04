@@ -22,10 +22,13 @@ class Member(models.Model):
     status = models.CharField(max_length=1, default='a')
     supervisor = models.ForeignKey("self", null=True)
 
+    def __str__(self):
+        return self.username;
+
 
 class MemberToken(models.Model):
     """Token untuk login"""
     member = models.ForeignKey(Member)
     token = models.CharField(max_length=20)
-    status = models.CharField(max_length=1)
+    status = models.CharField(max_length=1)    
     

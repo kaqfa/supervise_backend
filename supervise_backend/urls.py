@@ -15,17 +15,20 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-# from rest_framework import routers
+from rest_framework import routers
 from app.views import foo_view
 import app.views as appview
 import progress.views as progviews
 import member.views as memviews
 
-# router = routers.DefaultRouter()
+router = routers.DefaultRouter()
 # router.register(r'users', foo_view)
+router.register(r'g/app', appview.RegisterApp, base_name='register-app')
+router.register(r's/register', memviews.StudentRegister, base_name='student-register')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'rest/', include(router.urls)),
     # url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^foo/', foo_view),
@@ -44,14 +47,14 @@ urlpatterns = [
     url(r'^f/search', memviews.search_by_expertise),
     url(r'^f/searchfield', appview.search_expertise),
     url(r'^g/getlistthesis', appview.get_thesis_list),
-    url(r'^g/app', appview.register_app),
+    # url(r'^g/app', appview.register_app),
     url(r'^s/claim', progviews.submit_final),
     url(r'^s/editprofil', memviews.student_profile),
     url(r'^s/get', memviews.get_student),
     url(r'^s/getall', memviews.get_all_students),
     url(r'^s/inputcode', memviews.input_code),
     url(r'^s/propose', memviews.student_propose),
-    url(r'^s/register', memviews.student_register),
+    # url(r'^s/register', memviews.student_register),
     url(r'^s/savethesis', memviews.save_thesis),
     url(r'^su/addtask', progviews.add_template_task),
     url(r'^su/claim', progviews.validate_final),

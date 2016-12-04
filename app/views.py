@@ -2,6 +2,7 @@
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import viewsets
 from app.models import Application
 
 
@@ -13,20 +14,21 @@ def foo_view(request):
                          'data':request.data})
     return Response({'code':'1', 'message':'this is just a foo', 'data':'no data in get'})
 
-@api_view(['POST'])
-def register_app(request):
-    """*appname"""
-    resp = {};    
-    try:
-        result = Application.register_application(request.data['AppName'])
-    except KeyError:
-        return Response({'code': '-1', 'message': 'Missing AppName parameter'})    
-    
-    if result == False:
-        resp = {'code': '0', 'message':'appname exist'}
-    else:
-        resp = {'code': '1', 'message': result}
-    return Response(resp)
+class RegisterApp(viewsets.ViewSet):
+    """ViewSet untuk mendaftarkan aplikasi"""
+
+    def create(self, request):
+        resp = {}
+        try:
+            result = Application.register_application(request.data['AppName'])
+        except KeyError:
+            return Response({'code': '-1', 'message': 'Missing AppName parameter'})
+
+        if result is False:
+            resp = {'code': '0', 'message':'appname exist'}
+        else:
+            resp = {'code': '1', 'message': result}
+        return Response(resp)
 
 @api_view(['GET'])
 def get_thesis_list(request):

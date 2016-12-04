@@ -22,7 +22,7 @@ class Task(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True)
     duration = models.SmallIntegerField()
-    files = models.ManyToManyField(MediaFile, null=True)
+    files = models.ManyToManyField(MediaFile)
 
 
 class Template(models.Model):

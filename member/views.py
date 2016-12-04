@@ -2,18 +2,36 @@
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import viewsets
 from .serializers import RegisterSerializer
+from app.models import Application
 
 
-@api_view(['POST'])
-def student_register(request):
-    """*appkey, *username, *password, *nim, *name, address, handphone, email"""
-    serializer = RegisterSerializer(request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'code':'1', 'message':serializer})
-    else:
-        return Response({'code':'0', 'message':'something wrong'})
+class StudentRegister(viewsets.ViewSet):
+    def create(self, request):
+        try:
+            Application.objects.get(code=request.data['appkey'])
+        except Application.DoesNotExist:
+            return Response({'code':'0', 'message':'appkey is not valid'})
+
+        del request.data['appkey']
+        request.data['level']='s' # student
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'code':'1', 'message':serializer.data})
+        else:
+            return Response({'code':'0', 'message':serializer.errors})
+
+# @api_view(['POST'])
+# def student_register(request):
+#     """*appkey, *username, *password, *nim, *name, address, handphone, email"""
+#     serializer = RegisterSerializer(request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response({'code':'1', 'message':serializer})
+#     else:
+#         return Response({'code':'0', 'message':'something wrong'})
 
 @api_view(['POST'])
 def supervisor_register(request):
