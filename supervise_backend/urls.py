@@ -25,6 +25,7 @@ router = routers.DefaultRouter()
 # router.register(r'users', foo_view)
 router.register(r'g/app', appview.RegisterApp, base_name='register-app')
 router.register(r's/register', memviews.StudentRegister, base_name='student-register')
+router.register(r'su/register', memviews.SupervisorRegister, base_name='supervisor-register')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -68,7 +69,7 @@ urlpatterns = [
     url(r'^su/getall', memviews.get_all_supervisors),
     url(r'^su/getstudentprogress', progviews.student_progress),
     url(r'^su/issupervisor', memviews.is_student_supervisor),
-    url(r'^su/register', memviews.supervisor_register),
+    # url(r'^su/register', memviews.SupervisorRegister),
     url(r'^su/removetask', progviews.del_template_task),
     url(r'^su/response', memviews.respond_proposal),
     url(r'^su/savefield', memviews.save_expertise),

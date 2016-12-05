@@ -3,19 +3,21 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
-from .serializers import RegisterSerializer
 from app.models import Application
+from .serializers import RegisterSerializer
 
 
 class StudentRegister(viewsets.ViewSet):
+    """API untuk pendaftaran mahasiswa"""
     def create(self, request):
+        """Endpoint API untuk pendaftaran mahasiswa"""
         try:
             Application.objects.get(code=request.data['appkey'])
         except Application.DoesNotExist:
             return Response({'code':'0', 'message':'appkey is not valid'})
 
         del request.data['appkey']
-        request.data['level']='s' # student
+        request.data['level']='st'
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -33,10 +35,29 @@ class StudentRegister(viewsets.ViewSet):
 #     else:
 #         return Response({'code':'0', 'message':'something wrong'})
 
-@api_view(['POST'])
-def supervisor_register(request):
-    """*appkey, *username, *password, *npp, *name, address, handphone, email"""
-    return Response({'code':'1', 'message':'the message'})
+
+class SupervisorRegister(viewsets.ViewSet):
+    """API untuk pendaftaran pembimbing"""
+    def create(self, request):
+        """Endpoint API untuk pendaftaran pembimbing"""
+        try:
+            Application.objects.get(code=request.data['appkey'])
+        except Application.DoesNotExist:
+            return Response({'code':'0', 'message':'appkey is not valid'})
+
+        del request.data['appkey']
+        request.data['level'] = 'sp'
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'code':'1', 'message':serializer.data})
+        else:
+            return Response({'code':'0', 'message':serializer.errors})
+
+# @api_view(['POST'])
+# def supervisor_register(request):
+#     """*appkey, *username, *password, *npp, *name, address, handphone, email"""
+#     return Response({'code':'1', 'message':'the message'})
 
 @api_view(['GET'])
 def get_student(request):
