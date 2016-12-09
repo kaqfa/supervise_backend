@@ -31,4 +31,4 @@ class AppTest(TestMother):
         data = {'AppName': 'Testing App'}
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
-        self.assertEqual(response.data, {'message': 'appname exists', 'code': '0'})
+        self.assertEqual(response.data, {'message': 'appname exists', 'code': '0'})    

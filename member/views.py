@@ -14,6 +14,8 @@ class StudentRegister(viewsets.ViewSet):
         """Endpoint API untuk pendaftaran mahasiswa"""
         try:
             Application.objects.get(code=request.data['appkey'])
+        except KeyError:
+            return Response({'code':'0', 'message':'appkey must present'})
         except Application.DoesNotExist:
             return Response({'code':'0', 'message':'appkey is not valid'})
 
@@ -132,9 +134,13 @@ class Login(viewsets.ViewSet):
     def create(self, request):
         try:
             Application.objects.get(code=request.data['appkey'])
-            member = Member.objects.get(username=request.data['username'])
+        except KeyError:
+            return Response({'code':'0', 'message':'appkey must present'})
         except Application.DoesNotExist:
             return Response({'code':'0', 'message':'appkey is not valid'})
+        
+        try:                                    
+            member = Member.objects.get(username=request.data['username'])        
         except Member.DoesNotExist:
             return Response({'code':'0', 'message':'username tidak ditemukan'})
 
