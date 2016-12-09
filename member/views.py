@@ -45,6 +45,8 @@ class SupervisorRegister(viewsets.ViewSet):
         """Endpoint API untuk pendaftaran pembimbing"""
         try:
             Application.objects.get(code=request.data['appkey'])
+        except KeyError:
+            return Response({'code':'0', 'message':'appkey must present'})
         except Application.DoesNotExist:
             return Response({'code':'0', 'message':'appkey is not valid'})
 
@@ -53,6 +55,7 @@ class SupervisorRegister(viewsets.ViewSet):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            del serializer.data['password']
             return Response({'code':'1', 'message':serializer.data})
         else:
             return Response({'code':'0', 'message':serializer.errors})

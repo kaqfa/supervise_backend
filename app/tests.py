@@ -10,6 +10,15 @@ class TestMother(APITestCase):
         app = Application.objects.create(name="Testing App", code="123456")
         self.appkey = app.code
 
+    def appkey_valid(self, url):                
+        data = {}
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.data['message'], 'appkey must present')
+
+        data = {'appkey': '123'}
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.data['message'], 'appkey is not valid')
+
 
 class AppTest(TestMother):
     
