@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
+from django.utils.crypto import get_random_string
 
 
 class Expertise(models.Model):
@@ -37,13 +38,13 @@ class Member(models.Model):
         hasher = PBKDF2PasswordHasher()
         self.password = hasher.encode(password=self.password,
                                       salt='asdfa3u45tje*UKJ&*TYGH*&HBJK',
-                                      iterations=20)
+                                      iterations=20)[-44:]
 
     def check_password(self, inp_password):
         hasher = PBKDF2PasswordHasher()
         return (self.password == hasher.encode(password=inp_password,
                                                salt='asdfa3u45tje*UKJ&*TYGH*&HBJK',
-                                               iterations=20))
+                                               iterations=20)[-44:])
 
 
 class MemberToken(models.Model):
@@ -51,4 +52,13 @@ class MemberToken(models.Model):
     member = models.ForeignKey(Member)
     token = models.CharField(max_length=20)
     status = models.CharField(max_length=1)
+
+    @staticmethod
+    def create_token(member):
+        token = get_random_string(length=20)
+        while MemberToken.objects.filter(token=token).count() > 0:
+            token = get_random_string(length=20)
+
+        MemberToken.objects.create(member=member, token=token, status='a')
+        return token
     

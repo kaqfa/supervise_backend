@@ -18,7 +18,7 @@ class Application(models.Model):
         appkey = get_random_string(length=20)
         
         while Application.objects.filter(code=appkey).count() > 0:
-            appkey = get_random_string(length=20)            
+            appkey = get_random_string(length=20)
 
         Application.objects.create(name=appname,code=appkey)
         return appkey

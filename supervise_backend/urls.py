@@ -23,9 +23,11 @@ import member.views as memviews
 
 router = routers.DefaultRouter()
 # router.register(r'users', foo_view)
-router.register(r'g/app', appview.RegisterApp, base_name='register-app')
+router.register(r'g/app', appview.RegisterApp, base_name='app-register')
+router.register(r'f/auth', memviews.Login, base_name='app-login')
 router.register(r's/register', memviews.StudentRegister, base_name='student-register')
 router.register(r'su/register', memviews.SupervisorRegister, base_name='supervisor-register')
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -33,7 +35,7 @@ urlpatterns = [
     # url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^foo/', foo_view),
-    url(r'^f/auth', memviews.login),
+    # url(r'^f/auth', memviews.login),
     url(r'^f/createcomment', progviews.create_comment),
     url(r'^f/creatework', progviews.create_work),
     url(r'^f/deletecomment', progviews.delete_comment),

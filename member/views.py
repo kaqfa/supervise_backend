@@ -1,10 +1,11 @@
 """View untuk handling request student dan supervisor"""
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, list_route
 from rest_framework.response import Response
 from rest_framework import viewsets
 from app.models import Application
 from .serializers import RegisterSerializer
+from member.models import Member, MemberToken
 
 
 class StudentRegister(viewsets.ViewSet):
@@ -129,11 +130,31 @@ def is_username_exist(request):
     """*appkey, *username"""
     return Response({'code':'1', 'message':'the message'})
 
-@api_view(['POST'])
-def login(request):
-    """*appkey, *username, *password"""
-    return Response({'code':'1', 'message':'the message',
-                     'username':'the user', 'token':'the token'})
+
+class Login(viewsets.ViewSet):
+
+    # @list_route(methods=['post'])
+    def create(self, request):
+        try:
+            Application.objects.get(code=request.data['appkey'])
+            member = Member.objects.get(username=request.data['username'])
+        except Application.DoesNotExist:
+            return Response({'code':'0', 'message':'appkey is not valid'})
+        except Member.DoesNotExist:
+            return Response({'code':'0', 'message':'username tidak ditemukan'})
+
+        if member.check_password(request.data['password']):
+            token = MemberToken.create_token(member)
+            return Response({'code':'1', 'message':token})
+        else:
+            return Response({'code':'0', 'message':{'pass':member.password, 
+                            'mess': member.check_password(request.data['password'])}})
+
+# @api_view(['POST'])
+# def login(request):
+#     """*appkey, *username, *password"""
+#     return Response({'code':'1', 'message':'the message',
+#                      'username':'the user', 'token':'the token'})
 
 @api_view(['GET'])
 def search_by_expertise(request):
