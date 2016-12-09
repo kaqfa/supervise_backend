@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
 from app.models import Application
+from rest_framework import status
 
 
 @api_view(['GET', 'POST'])
@@ -22,13 +23,14 @@ class RegisterApp(viewsets.ViewSet):
         try:
             result = Application.register_application(request.data['AppName'])
         except KeyError:
-            return Response({'code': '-1', 'message': 'Missing AppName parameter'})
+            resp = {'code': '-1', 'message': 'Missing AppName parameter'}
+            return Response(resp, status=status.HTTP_400_BAD_REQUEST)
 
         if result is False:
             resp = {'code': '0', 'message':'appname exist'}
         else:
             resp = {'code': '1', 'message': result}
-        return Response(resp)
+        return Response(resp, status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
 def get_thesis_list(request):
