@@ -1,11 +1,17 @@
 from django.core.urlresolvers import reverse
-from django.test import TestCase
 from rest_framework.test import APITestCase
 from rest_framework import status
 from .models import Application
 
 
-class AppTest(APITestCase):
+class TestMother(APITestCase):
+    
+    def setUp(self):
+        app = Application.objects.create(name="Testing App", code="123456")
+        self.appkey = app.code
+
+
+class AppTest(TestMother):
     
     def setUp(self):
         app = Application.objects.create(name="Testing App", code="123456")

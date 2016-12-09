@@ -24,9 +24,9 @@ import member.views as memviews
 router = routers.DefaultRouter()
 # router.register(r'users', foo_view)
 router.register(r'g/app', appview.RegisterApp, base_name='app-register')
-router.register(r'f/auth', memviews.Login, base_name='app-login')
 router.register(r's/register', memviews.StudentRegister, base_name='student-register')
 router.register(r'su/register', memviews.SupervisorRegister, base_name='supervisor-register')
+router.register(r'f/auth', memviews.Login, base_name='app-login')
 
 
 urlpatterns = [

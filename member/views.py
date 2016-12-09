@@ -55,11 +55,6 @@ class SupervisorRegister(viewsets.ViewSet):
         else:
             return Response({'code':'0', 'message':serializer.errors})
 
-# @api_view(['POST'])
-# def supervisor_register(request):
-#     """*appkey, *username, *password, *npp, *name, address, handphone, email"""
-#     return Response({'code':'1', 'message':'the message'})
-
 @api_view(['GET'])
 def get_student(request):
     """*username, *appkey, *token"""
