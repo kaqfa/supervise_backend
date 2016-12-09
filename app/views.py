@@ -27,10 +27,11 @@ class RegisterApp(viewsets.ViewSet):
             return Response(resp, status=status.HTTP_400_BAD_REQUEST)
 
         if result is False:
-            resp = {'code': '0', 'message':'appname exist'}
+            resp = {'code': '0', 'message':'appname exists'}
+            return Response(resp, status=status.HTTP_409_CONFLICT)
         else:
             resp = {'code': '1', 'message': result}
-        return Response(resp, status=status.HTTP_201_CREATED)
+            return Response(resp, status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
 def get_thesis_list(request):
