@@ -4,20 +4,18 @@ from rest_framework.decorators import api_view, list_route
 from rest_framework.response import Response
 from rest_framework import viewsets
 from app.models import Application
+from app.views import AppKeyMixin
 from .serializers import RegisterSerializer
 from member.models import Member, MemberToken
 
 
-class StudentRegister(viewsets.ViewSet):
+class StudentRegister(AppKeyMixin, viewsets.ViewSet):
     """API untuk pendaftaran mahasiswa"""
     def create(self, request):
         """Endpoint API untuk pendaftaran mahasiswa"""
-        try:
-            Application.objects.get(code=request.data['appkey'])
-        except KeyError:
-            return Response({'code':'0', 'message':'appkey must present'})
-        except Application.DoesNotExist:
-            return Response({'code':'0', 'message':'appkey is not valid'})
+        invalid = self.appkey_check(request.data)
+        if invalid:
+            return invalid
 
         del request.data['appkey']
         request.data['level']='st'
@@ -28,29 +26,15 @@ class StudentRegister(viewsets.ViewSet):
         else:
             return Response({'code':'0', 'message':serializer.errors})
 
-# @api_view(['POST'])
-# def student_register(request):
-#     """*appkey, *username, *password, *nim, *name, address, handphone, email"""
-#     serializer = RegisterSerializer(request.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#         return Response({'code':'1', 'message':serializer})
-#     else:
-#         return Response({'code':'0', 'message':'something wrong'})
 
-
-class SupervisorRegister(viewsets.ViewSet):
+class SupervisorRegister(AppKeyMixin, viewsets.ViewSet):
     """API untuk pendaftaran pembimbing"""
     def create(self, request):
         """Endpoint API untuk pendaftaran pembimbing"""
-        try:
-            Application.objects.get(code=request.data['appkey'])
-        except KeyError:
-            return Response({'code':'0', 'message':'appkey must present'})
-        except Application.DoesNotExist:
-            return Response({'code':'0', 'message':'appkey is not valid'})
+        invalid = self.appkey_check(request.data)
+        if invalid:
+            return invalid
 
-        del request.data['appkey']
         request.data['level'] = 'sp'
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -126,15 +110,12 @@ def supervisor_profile(request):
     return Response({'code':'1', 'message':'the message'})
 
 
-class UsernameExist(viewsets.ViewSet):
+class UsernameExist(AppKeyMixin, viewsets.ViewSet):
     
     def create(self, request):
-        try:
-            Application.objects.get(code=request.data['appkey'])
-        except KeyError:
-            return Response({'code':'0', 'message':'appkey must present'})
-        except Application.DoesNotExist:
-            return Response({'code':'0', 'message':'appkey is not valid'})
+        invalid = self.appkey_check(request.data)
+        if invalid:
+            return invalid
 
         try:
             Member.objects.get(username=request.data['username'])
@@ -143,22 +124,14 @@ class UsernameExist(viewsets.ViewSet):
 
         return Response({'code': '0', 'message': 'username already exists!'})
 
-# @api_view(['POST'])
-# def is_username_exist(request):
-#     """*appkey, *username"""
-#     return Response({'code':'1', 'message':'the message'})
 
-
-class Login(viewsets.ViewSet):
+class Login(AppKeyMixin, viewsets.ViewSet):
 
     # @list_route(methods=['post'])
     def create(self, request):
-        try:
-            Application.objects.get(code=request.data['appkey'])
-        except KeyError:
-            return Response({'code':'0', 'message':'appkey must present'})
-        except Application.DoesNotExist:
-            return Response({'code':'0', 'message':'appkey is not valid'})
+        invalid = self.appkey_check(request.data)
+        if invalid:
+            return invalid
         
         try:                                    
             member = Member.objects.get(username=request.data['username'])        
@@ -172,11 +145,6 @@ class Login(viewsets.ViewSet):
             return Response({'code':'0', 'message':{'pass':member.password, 
                             'mess': member.check_password(request.data['password'])}})
 
-# @api_view(['POST'])
-# def login(request):
-#     """*appkey, *username, *password"""
-#     return Response({'code':'1', 'message':'the message',
-#                      'username':'the user', 'token':'the token'})
 
 @api_view(['GET'])
 def search_by_expertise(request):

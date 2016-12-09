@@ -15,6 +15,21 @@ def foo_view(request):
                          'data':request.data})
     return Response({'code':'1', 'message':'this is just a foo', 'data':'no data in get'})
 
+
+class AppKeyMixin(object):
+    
+    def appkey_check(self, reqdata):
+        try:
+            print(Application.objects.get(code=reqdata['appkey']))
+        except KeyError:            
+            return Response({'code':'0', 'message':'appkey must present'})
+        except Application.DoesNotExist:
+            del reqdata['appkey']            
+            return Response({'code':'0', 'message':'appkey is not valid'})
+
+        return False
+
+
 class RegisterApp(viewsets.ViewSet):
     """ViewSet untuk mendaftarkan aplikasi"""
 
