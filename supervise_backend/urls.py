@@ -24,6 +24,7 @@ import member.views as memviews
 router = routers.DefaultRouter()
 # router.register(r'users', foo_view)
 router.register(r'g/app', appview.RegisterApp, base_name='app-register')
+router.register(r'f/isexist', memviews.UsernameExist, base_name='username-exist')
 router.register(r's/register', memviews.StudentRegister, base_name='student-register')
 router.register(r'su/register', memviews.SupervisorRegister, base_name='supervisor-register')
 router.register(r'f/auth', memviews.Login, base_name='app-login')
@@ -45,7 +46,7 @@ urlpatterns = [
     url(r'^f/gettask', progviews.get_task),
     url(r'^f/getungraduated', memviews.ungraduated_student),
     url(r'^f/getusername', memviews.get_username),
-    url(r'^f/isexist', memviews.is_username_exist),
+    # url(r'^f/isexist', memviews.is_username_exist),
     url(r'^f/resetpassword', memviews.reset_password),
     url(r'^f/search', memviews.search_by_expertise),
     url(r'^f/searchfield', appview.search_expertise),

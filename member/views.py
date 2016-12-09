@@ -125,10 +125,28 @@ def supervisor_profile(request):
     """*appkey, *token, address, handphone, email, *field[]"""
     return Response({'code':'1', 'message':'the message'})
 
-@api_view(['POST'])
-def is_username_exist(request):
-    """*appkey, *username"""
-    return Response({'code':'1', 'message':'the message'})
+
+class UsernameExist(viewsets.ViewSet):
+    
+    def create(self, request):
+        try:
+            Application.objects.get(code=request.data['appkey'])
+        except KeyError:
+            return Response({'code':'0', 'message':'appkey must present'})
+        except Application.DoesNotExist:
+            return Response({'code':'0', 'message':'appkey is not valid'})
+
+        try:
+            Member.objects.get(username=request.data['username'])
+        except Member.DoesNotExist:
+            return Response({'code': '1', 'message': 'username is available'})
+
+        return Response({'code': '0', 'message': 'username already exists!'})
+
+# @api_view(['POST'])
+# def is_username_exist(request):
+#     """*appkey, *username"""
+#     return Response({'code':'1', 'message':'the message'})
 
 
 class Login(viewsets.ViewSet):

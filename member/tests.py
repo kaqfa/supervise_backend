@@ -15,6 +15,22 @@ class MemberTesting(TestMother):
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.data['message'], 'username tidak ditemukan')
 
+    def test_is_username_exists(self):        
+        Member.objects.create(username='user', password='pass', status='a',
+                              name='user', email='user@email.com')                              
+        url = reverse('username-exist-list')
+
+        self.appkey_valid(url)
+        data = {'appkey': self.appkey, 'username': 'user'}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.data['code'], '0')
+        self.assertEqual(response.data['message'], 'username already exists!')
+
+        data = {'appkey': self.appkey, 'username': 'andre'}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.data['code'], '1')
+        self.assertEqual(response.data['message'], 'username is available')
+
 
 class SupervisorTesting(TestMother):
 
@@ -61,4 +77,4 @@ class StudentTesting(TestMother):
         del dbSuper['supervisor_id']
         del dbSuper['status']
         del dbSuper['id']                
-        self.assertEqual(response.data['message'], dbSuper)    
+        self.assertEqual(response.data['message'], dbSuper)
