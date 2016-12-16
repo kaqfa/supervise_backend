@@ -11,9 +11,9 @@ class TestMother(APITestCase):
         self.appkey = app.code
 
     def appkey_valid(self, url):                
-        data = {}
+        data = {'foo': 'foo'}
         response = self.client.post(url, data, format="json")
-        self.assertEqual(response.data['message'], 'appkey must present', response.content)
+        self.assertEqual(response.data['message'], 'appkey must present')
 
         data = {'appkey': '123'}
         response = self.client.post(url, data, format="json")

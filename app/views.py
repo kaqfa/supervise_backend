@@ -15,12 +15,27 @@ def foo_view(request):
                          'data':request.data})
     return Response({'code':'1', 'message':'this is just a foo', 'data':'no data in get'})
 
+def app_key_required(function):
+        
+    def decorator(request, *args, **kwargs):
+        try:
+            Application.objects.get(code=request.data['appkey'])
+        except KeyError:            
+            return Response({'code':'0', 'message':'appkey must present'})
+        except Application.DoesNotExist:
+            del request.data['appkey']
+            return Response({'code':'0', 'message':'appkey is not valid'})
+            
+        return function(request, data=request.data, *args, **kwargs)
+
+    return decorator
+
 
 class AppKeyMixin(object):
     
     def appkey_check(self, reqdata):
         try:
-            print(Application.objects.get(code=reqdata['appkey']))
+            Application.objects.get(code=reqdata['appkey'])
         except KeyError:            
             return Response({'code':'0', 'message':'appkey must present'})
         except Application.DoesNotExist:

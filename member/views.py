@@ -4,13 +4,15 @@ from rest_framework.decorators import api_view, list_route
 from rest_framework.response import Response
 from rest_framework import viewsets
 from app.models import Application
-from app.views import AppKeyMixin
+from app.views import AppKeyMixin, app_key_required
 from .serializers import RegisterSerializer
 from member.models import Member, MemberToken
 
 
 class StudentRegister(AppKeyMixin, viewsets.ViewSet):
     """API untuk pendaftaran mahasiswa"""
+
+    # @app_key_required
     def create(self, request):
         """Endpoint API untuk pendaftaran mahasiswa"""
         invalid = self.appkey_check(request.data)
@@ -126,8 +128,7 @@ class UsernameExist(AppKeyMixin, viewsets.ViewSet):
 
 
 class Login(AppKeyMixin, viewsets.ViewSet):
-
-    # @list_route(methods=['post'])
+    
     def create(self, request):
         invalid = self.appkey_check(request.data)
         if invalid:
