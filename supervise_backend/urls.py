@@ -23,16 +23,17 @@ import member.views as memviews
 
 router = routers.DefaultRouter()
 # router.register(r'users', foo_view)
-router.register(r'g/app', appview.RegisterApp, base_name='app-register')
-router.register(r'f/isexist', memviews.UsernameExist, base_name='username-exist')
-router.register(r's/register', memviews.StudentRegister, base_name='student-register')
-router.register(r'su/register', memviews.SupervisorRegister, base_name='supervisor-register')
-router.register(r'f/auth', memviews.Login, base_name='app-login')
+router.register(r'app/appregister', appview.RegisterApp, base_name='app-register')
+# router.register(r'f/auth', memviews.Login, base_name='app-login')
+# router.register(r'f/isexist', memviews.UsernameExist, base_name='username-exist')
+router.register(r'app/register', memviews.RegisterViewset, base_name='member-register')
+router.register(r'su/editprofil', memviews.SupervisorProfile, base_name='supervisor-edit-profile')
+
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'rest/', include(router.urls)),
+    url(r'', include(router.urls)),
     # url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^foo/', foo_view),
@@ -67,7 +68,7 @@ urlpatterns = [
     url(r'^su/deletefield', memviews.delete_expertise),
     url(r'^su/deletetask', progviews.delete_task),
     url(r'^su/deletetemplate', progviews.delete_template),
-    url(r'^su/editprofil', memviews.supervisor_profile),
+    # url(r'^su/editprofil', memviews.supervisor_profile),
     url(r'^su/get', memviews.get_supervisor),
     url(r'^su/getall', memviews.get_all_supervisors),
     url(r'^su/getstudentprogress', progviews.student_progress),

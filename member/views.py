@@ -2,31 +2,28 @@
 
 from rest_framework.decorators import api_view, list_route
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from app.models import Application
 from app.views import AppKeyMixin, app_key_required
-from .serializers import RegisterSerializer
-from member.models import Member, MemberToken
+from .serializers import RegisterSerializer, ProfileSerializer
+from member.models import Member
 
 
-class StudentRegister(AppKeyMixin, viewsets.ViewSet):
-    """API untuk pendaftaran mahasiswa"""
+# class StudentViewsets(viewsets.ModelViewSet):
+#     queryset = Member.objects.filter(level='st')
 
-    # @app_key_required
+
+class RegisterViewset(AppKeyMixin, viewsets.ViewSet):
+    """API untuk registrasi pengguna"""
+
     def create(self, request):
         """Endpoint API untuk pendaftaran mahasiswa"""
-        invalid = self.appkey_check(request.data)
-        if invalid:
-            return invalid
-
-        del request.data['appkey']
-        request.data['level']='st'
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'code':'1', 'message':serializer.data})
+            return Response(request.data)
         else:
-            return Response({'code':'0', 'message':serializer.errors})
+            return Response(serializer.errors)
 
 
 class SupervisorRegister(AppKeyMixin, viewsets.ViewSet):
@@ -38,13 +35,12 @@ class SupervisorRegister(AppKeyMixin, viewsets.ViewSet):
             return invalid
 
         request.data['level'] = 'sp'
-        serializer = RegisterSerializer(data=request.data)
+        serializer = RegisterSerializer(data=request.data)        
         if serializer.is_valid():
             serializer.save()
-            del serializer.data['password']
-            return Response({'code':'1', 'message':serializer.data})
+            return Response(request.data)
         else:
-            return Response({'code':'0', 'message':serializer.errors})
+            return Response(serializer.errors)
 
 @api_view(['GET'])
 def get_student(request):
@@ -106,14 +102,26 @@ def student_profile(request):
     """*appkey, *token, address, handphone, email"""
     return Response({'code':'1', 'message':'the message'})
 
-@api_view(['POST'])
-def supervisor_profile(request):
-    """*appkey, *token, address, handphone, email, *field[]"""
-    return Response({'code':'1', 'message':'the message'})
+
+class SupervisorProfile(AppKeyMixin, viewsets.ViewSet):
+
+    def create(self, request):
+        invalid = self.appkey_check(request.data)
+        if invalid:
+            return invalid
+
+        # token = MemberToken.objects.get(token=request.data['token'])
+        serializer = ProfileSerializer(request.user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'code':'1', 'message':serializer.data})
+        else:
+            return Response({'code':'0', 'message':serializer.errors})
+        return Response({'code':'1', 'message':'the message'})
 
 
 class UsernameExist(AppKeyMixin, viewsets.ViewSet):
-    
+
     def create(self, request):
         invalid = self.appkey_check(request.data)
         if invalid:
@@ -130,22 +138,22 @@ class UsernameExist(AppKeyMixin, viewsets.ViewSet):
 class Login(AppKeyMixin, viewsets.ViewSet):
     
     def create(self, request):
-        invalid = self.appkey_check(request.data)
-        if invalid:
-            return invalid
-        
-        try:                                    
-            member = Member.objects.get(username=request.data['username'])        
-        except Member.DoesNotExist:
-            return Response({'code':'0', 'message':'username tidak ditemukan'})
+        pass
+        # invalid = self.appkey_check(request.data)
+        # if invalid:
+        #     return invalid
 
-        if member.check_password(request.data['password']):
-            token = MemberToken.create_token(member)
-            return Response({'code':'1', 'message':token})
-        else:
-            return Response({'code':'0', 'message':{'pass':member.password, 
-                            'mess': member.check_password(request.data['password'])}})
+        # try:                                    
+        #     member = Member.objects.get(username=request.data['username'])        
+        # except Member.DoesNotExist:
+        #     return Response({'code':'0', 'message':'username tidak ditemukan'})
 
+        # if member.check_password(request.data['password']):
+        #     token = MemberToken.create_token(member)
+        #     return Response({'code':'1', 'message':token})
+        # else:
+        #     return Response({'code':'0', 'message':{'pass':member.password, 
+        #                     'mess': member.check_password(request.data['password'])}})
 
 @api_view(['GET'])
 def search_by_expertise(request):
