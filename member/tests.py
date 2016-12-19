@@ -4,6 +4,8 @@ from rest_framework import status
 # from app.tests import TestMother 
 from app.models import Application
 from .models import Member
+from django.contrib.auth.models import User
+from collections import Counter
 
 
 class MemberTesting(APITestCase):
@@ -31,7 +33,7 @@ class MemberTesting(APITestCase):
                 'email': 'super@gmail.com'}
         response = self.client.post(url, data, format="json")
         # self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        superv = Member.objects.filter(user__username='superve').values()[0]        
+        superv = Member.objects.filter(user__username='superve').values()[0]
         self.assertEqual(superv['npp'], data['npp'])
     
     def test_student_register(self):
@@ -55,21 +57,15 @@ class MemberTesting(APITestCase):
         self.assertEqual(student['nim'], data['nim'])
 
     def test_is_username_exists(self):
-        pass
-        # Member.objects.create(username='user', password='pass', status='a',
-        #                       name='user', email='user@email.com')
-        # url = reverse('username-exist-list')
+        user = User.objects.create(username='user', password='pass',
+                                   email='user@email.com', first_name="stud")
+        Member.objects.create(user=user, nim='123', level="st")
+        url = '/app/members/user/' # reverse('member-list-list', kwargs={'username': 'user'})
 
-        # self.appkey_valid(url)
-        # data = {'appkey': self.appkey, 'username': 'user'}
-        # response = self.client.post(url, data, format='json')
-        # self.assertEqual(response.data['code'], '0')
-        # self.assertEqual(response.data['message'], 'username already exists!')
-
-        # data = {'appkey': self.appkey, 'username': 'andre'}
-        # response = self.client.post(url, data, format='json')
-        # self.assertEqual(response.data['code'], '1')
-        # self.assertEqual(response.data['message'], 'username is available')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # self.assertEqual(response.data, 1, response.data)
+        # self.assertEqual(response.data['data']['user']['username'], 'user')
 
 
 class SupervisorTesting(APITestCase):    

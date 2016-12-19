@@ -33,10 +33,10 @@ class RegisterSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         userdata = {'username':validated_data.get('username'),
-                    'password':self.validated_data['password'],
-                    'first_name':self.validated_data['name'],
-                    'last_name':self.validated_data['name'],
-                    'email':self.validated_data['email']}
+                    'password':validated_data.get('password'),
+                    'first_name':validated_data.get('name'),
+                    'last_name':validated_data.get('name'),
+                    'email':validated_data.get('email')}
         user = User(**userdata)
         user.save()
         memberdata = {'user':user, 'npp':validated_data.get('npp', None),
@@ -47,20 +47,27 @@ class RegisterSerializer(serializers.Serializer):
         return Member.objects.create(**memberdata)
 
 
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('url', 'username', 'email', 'first_name', 'last_name')
+
+
 class ProfileSerializer(serializers.ModelSerializer):
-    password = serializers.CharField()
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Member
-        fields = ('password', 'nim', 'npp', 'name', 'address',
-                  'phone', 'email', 'level')
+        fields = ('user', 'nim', 'npp', 'address', 'phone')
 
-    def update(self, instance, validated_data):
-        instance.nim = validated_data.get('nim', instance.nim)
-        instance.npp = validated_data.get('npp', instance.npp)
-        instance.name = validated_data.get('name', instance.name)
-        instance.address = validated_data.get('address', instance.address)
-        instance.phone = validated_data.get('phone', instance.phone)
-        instance.email = validated_data.get('email', instance.email)
-        instance.level = validated_data.get('level', instance.level)
+    # def update(self, instance, validated_data):
+    #     instance.nim = validated_data.get('nim', instance.nim)
+    #     instance.npp = validated_data.get('npp', instance.npp)
+    #     instance.name = validated_data.get('name', instance.name)
+    #     instance.address = validated_data.get('address', instance.address)
+    #     instance.phone = validated_data.get('phone', instance.phone)
+    #     instance.email = validated_data.get('email', instance.email)
+    #     instance.level = validated_data.get('level', instance.level)
 
-        return instance
+    #     return instance

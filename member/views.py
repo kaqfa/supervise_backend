@@ -2,15 +2,30 @@
 
 from rest_framework.decorators import api_view, list_route
 from rest_framework.response import Response
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, generics
 from app.models import Application
 from app.views import AppKeyMixin, app_key_required
-from .serializers import RegisterSerializer, ProfileSerializer
-from member.models import Member
+from .serializers import RegisterSerializer, ProfileSerializer, UserSerializer
+from member.models import Member, User
 
 
-# class StudentViewsets(viewsets.ModelViewSet):
-#     queryset = Member.objects.filter(level='st')
+class UserViewsets(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
+
+class MemberList(generics.ListAPIView):
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        member = Member.objects.filter(user__username=username)
+        return member
+
+
+class StudentViewsets(viewsets.ModelViewSet):
+    queryset = Member.objects.filter(level='st')
+    serializer_class = ProfileSerializer
 
 
 class RegisterViewset(AppKeyMixin, viewsets.ViewSet):
@@ -26,21 +41,21 @@ class RegisterViewset(AppKeyMixin, viewsets.ViewSet):
             return Response(serializer.errors)
 
 
-class SupervisorRegister(AppKeyMixin, viewsets.ViewSet):
-    """API untuk pendaftaran pembimbing"""
-    def create(self, request):
-        """Endpoint API untuk pendaftaran pembimbing"""
-        invalid = self.appkey_check(request.data)
-        if invalid:
-            return invalid
+# class SupervisorRegister(AppKeyMixin, viewsets.ViewSet):
+#     """API untuk pendaftaran pembimbing"""
+#     def create(self, request):
+#         """Endpoint API untuk pendaftaran pembimbing"""
+#         invalid = self.appkey_check(request.data)
+#         if invalid:
+#             return invalid
 
-        request.data['level'] = 'sp'
-        serializer = RegisterSerializer(data=request.data)        
-        if serializer.is_valid():
-            serializer.save()
-            return Response(request.data)
-        else:
-            return Response(serializer.errors)
+#         request.data['level'] = 'sp'
+#         serializer = RegisterSerializer(data=request.data)        
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(request.data)
+#         else:
+#             return Response(serializer.errors)
 
 @api_view(['GET'])
 def get_student(request):

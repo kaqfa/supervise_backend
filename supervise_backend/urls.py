@@ -25,15 +25,19 @@ router = routers.DefaultRouter()
 # router.register(r'users', foo_view)
 router.register(r'app/appregister', appview.RegisterApp, base_name='app-register')
 # router.register(r'f/auth', memviews.Login, base_name='app-login')
-# router.register(r'f/isexist', memviews.UsernameExist, base_name='username-exist')
+# router.register(r'app/members/(?P<username>.+)/$', memviews.MemberList, base_name='member-list')
 router.register(r'app/register', memviews.RegisterViewset, base_name='member-register')
 router.register(r'su/editprofil', memviews.SupervisorProfile, base_name='supervisor-edit-profile')
+router.register(r'students', memviews.RegisterViewset, base_name='student')
+router.register(r'users', memviews.UserViewsets, base_name='user')
+
 
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include(router.urls)),
+    url(r'app/members/(?P<username>.+)/$', memviews.MemberList.as_view()),
     # url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^foo/', foo_view),
