@@ -28,7 +28,7 @@ router.register(r'app/appregister', appview.RegisterApp, base_name='app-register
 # router.register(r'app/members/(?P<username>.+)/$', memviews.MemberList, base_name='member-list')
 router.register(r'app/register', memviews.RegisterViewset, base_name='member-register')
 router.register(r'su/editprofil', memviews.SupervisorProfile, base_name='supervisor-edit-profile')
-router.register(r'students', memviews.RegisterViewset, base_name='student')
+router.register(r'students', memviews.StudentViewsets, base_name='student')
 router.register(r'users', memviews.UserViewsets, base_name='user')
 
 

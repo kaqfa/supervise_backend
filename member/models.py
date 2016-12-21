@@ -30,7 +30,7 @@ class Member(models.Model):
     supervisor = models.ForeignKey("self", null=True)
 
     def __str__(self):
-        return self.username
+        return self.user.username
 
     # def save(self, *args, **kwargs):
     #     self.set_password()

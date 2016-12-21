@@ -3,6 +3,7 @@
 from rest_framework.decorators import api_view, list_route
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
+from rest_framework.permissions import IsAuthenticated
 from app.models import Application
 from app.views import AppKeyMixin, app_key_required
 from .serializers import RegisterSerializer, ProfileSerializer, UserSerializer
@@ -23,11 +24,6 @@ class MemberList(generics.ListAPIView):
         return member
 
 
-class StudentViewsets(viewsets.ModelViewSet):
-    queryset = Member.objects.filter(level='st')
-    serializer_class = ProfileSerializer
-
-
 class RegisterViewset(AppKeyMixin, viewsets.ViewSet):
     """API untuk registrasi pengguna"""
 
@@ -40,6 +36,11 @@ class RegisterViewset(AppKeyMixin, viewsets.ViewSet):
         else:
             return Response(serializer.errors)
 
+
+class StudentViewsets(viewsets.ModelViewSet):
+    queryset = Member.objects.filter(level='st')
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
 
 # class SupervisorRegister(AppKeyMixin, viewsets.ViewSet):
 #     """API untuk pendaftaran pembimbing"""
