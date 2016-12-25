@@ -18,16 +18,16 @@ class Member(models.Model):
     # username = models.CharField(max_length=50, unique=True)
     # password = models.CharField(max_length=100)
     user = models.ForeignKey(User)
-    nim = models.CharField(max_length=20, null=True)
-    npp = models.CharField(max_length=20, null=True)
+    nim = models.CharField(max_length=20, null=True, blank=True)
+    npp = models.CharField(max_length=20, null=True, blank=True)
     # name = models.CharField(max_length=50)
-    address = models.TextField(null=True)
-    phone = models.CharField(max_length=20, null=True)
+    address = models.TextField(null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
     # email = models.CharField(max_length=200)
-    expertise = models.ManyToManyField(Expertise)
+    expertise = models.ManyToManyField(Expertise, blank=True)
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
     status = models.CharField(max_length=1, default='a', choices=STATUS_CHOICES)
-    supervisor = models.ForeignKey("self", null=True)
+    supervisor = models.ForeignKey("self", null=True, blank=True)
 
     def __str__(self):
         return self.user.username

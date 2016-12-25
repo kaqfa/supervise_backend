@@ -42,6 +42,12 @@ class StudentViewsets(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
 
+
+class SupervisorViewsets(viewsets.ModelViewSet):
+    queryset = Member.objects.filter(level='sp')
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
 # class SupervisorRegister(AppKeyMixin, viewsets.ViewSet):
 #     """API untuk pendaftaran pembimbing"""
 #     def create(self, request):

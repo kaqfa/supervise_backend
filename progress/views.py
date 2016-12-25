@@ -2,6 +2,14 @@
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import viewsets
+from .models import Thesis, Task, Template
+from .serializers import ThesisSerializer
+
+
+class ThesisViewsets(viewsets.ModelViewSet):    
+    queryset = Thesis.objects.all()
+    serializer_class = ThesisSerializer
 
 
 @api_view(['GET'])

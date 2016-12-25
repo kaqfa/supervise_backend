@@ -68,7 +68,25 @@ class MemberTesting(APITestCase):
         # self.assertEqual(response.data['data']['user']['username'], 'user')
 
 
-class SupervisorTesting(APITestCase):    
+class SupervisorTesting(APITestCase):
+
+    fixtures = ['fixtures/user.json', 'fixtures/member.json']
+
+    def test_supervisor_list(self):
+        login = self.client.login(username='supervisor', password='qwerty123')
+        url = reverse('student-list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
+
+    def test_supervisor_detail(self):
+        login = self.client.login(username='supervisor', password='qwerty123')
+        url = '/supervisors/5/' # reverse('student-detail', kwargs={'id': '5'})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+        url = '/supervisors/3/' #reverse('student-detail', kwargs={'id': '2'})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
 
     def test_supervisor_edit_profile(self):
         pass
@@ -114,11 +132,10 @@ class StudentTesting(APITestCase):
         # MemberToken.objects.create(member=student, token=self.student_token, status='a')
 
     def test_student_detail(self):
-        login = self.client.login(username='supervisor', password='qwerty123')
-        user = User.objects.all()
+        login = self.client.login(username='supervisor', password='qwerty123')        
         url = '/students/5/' # reverse('student-detail', kwargs={'id': '5'})
         response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND, user[0].password)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         
         url = '/students/2/' #reverse('student-detail', kwargs={'id': '2'})
         response = self.client.get(url)

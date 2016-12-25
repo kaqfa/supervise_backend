@@ -13,8 +13,8 @@ class Thesis(models.Model):
     title = models.CharField(max_length=255)
     abstract = models.TextField(null=True)
     student = models.ForeignKey(Member)
-    field = models.ManyToManyField(Expertise)
-    files = models.ManyToManyField(MediaFile)
+    field = models.ManyToManyField(Expertise, blank=True)
+    files = models.ManyToManyField(MediaFile, blank=True)
     save_date = models.DateField(auto_now_add=True)
 
 

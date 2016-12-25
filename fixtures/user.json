@@ -1,0 +1,146 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$30000$Hdy6HSbENgk9$Ux8Eo5m7SrO65MCW+HPgWRbZ0qw9MeuD/IGaA5sphfk=",
+        "last_login": "2016-12-21T19:50:38.845Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2016-12-21T19:50:27.208Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$30000$aoJRqfVttbzs$VMsxWn83WZdDbFvuvoCwcCqNxVY+O8/IcTcNv4Z4DC0=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "supervisor",
+        "first_name": "super",
+        "last_name": "visor",
+        "email": "supervisor@email.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2016-12-21T19:52:06Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$30000$dUQRD5GEkK75$k5zypMRnFU68MCeAC11dQMb6+l5roendgXehZvb/ENk=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "student",
+        "first_name": "student",
+        "last_name": "good",
+        "email": "student@email.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2016-12-21T19:52:41Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$30000$HY012unqYxUo$xZVlOTiqgVFChZZrIrac/8kOxpIKWeRao2T73AKBmsA=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "rancho",
+        "first_name": "ranchodas",
+        "last_name": "chancad",
+        "email": "rancho@email.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2016-12-21T19:53:22Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$30000$yp8X0h31rA4Y$I0+FVRuooquXpTY6/VzbpzQN1mU6/OzM+C4xonIZECk=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "farhan",
+        "first_name": "farhan",
+        "last_name": "quraishi",
+        "email": "farhan@email.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2016-12-21T19:54:01Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$30000$yGzymGA734Pp$fa1K6fNyzoHqK3QI4EATzxM/u+zJYT8pidZ7coFC9Ug=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "catur",
+        "first_name": "catur",
+        "last_name": "ramalimgam",
+        "email": "catur@email.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2016-12-21T19:54:39Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+        "password": "pbkdf2_sha256$30000$YuEsUN2srq7d$1/SIj39G/cr0feuOD1htj2jdasCclvJQmOJoD4A8ro4=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "raju",
+        "first_name": "raju",
+        "last_name": "rastogi",
+        "email": "raju@email.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2016-12-21T19:55:11Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+        "password": "pbkdf2_sha256$30000$7TuOBXt9Qtqe$9XqCH7ppTc1eRXLbjQ61c6Dq35w4K86+7x0JXUK7oq0=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "virus",
+        "first_name": "viru",
+        "last_name": "sahastrabudi",
+        "email": "virus@email.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2016-12-21T19:55:42Z",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

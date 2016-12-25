@@ -29,10 +29,9 @@ router.register(r'app/appregister', appview.RegisterApp, base_name='app-register
 router.register(r'app/register', memviews.RegisterViewset, base_name='member-register')
 router.register(r'su/editprofil', memviews.SupervisorProfile, base_name='supervisor-edit-profile')
 router.register(r'students', memviews.StudentViewsets, base_name='student')
+router.register(r'supervisors', memviews.SupervisorViewsets, base_name='supervisor')
+router.register(r'theses', progviews.ThesisViewsets, base_name='thesis')
 router.register(r'users', memviews.UserViewsets, base_name='user')
-
-
-
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
