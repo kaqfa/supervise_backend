@@ -4,10 +4,12 @@ from rest_framework.decorators import api_view, list_route
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import detail_route, list_route
 from app.models import Application
 from app.views import AppKeyMixin, app_key_required
-from .serializers import RegisterSerializer, ProfileSerializer, UserSerializer
-from member.models import Member, User
+from .serializers import RegisterSerializer, ProfileSerializer
+from .serializers import UserSerializer, ProposalSerializer
+from member.models import Member, User, StudentProposal
 
 
 class UserViewsets(viewsets.ModelViewSet):
@@ -42,27 +44,33 @@ class StudentViewsets(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
 
+    @list_route(methods=['post'])
+    def propose(self, request):
+        student = Member.objects.get(user=request.user)
+        supervisor = Member.objects.get(pk=request.data['supervisor'])
+        if supervisor.level == 'sp':
+            proposal = StudentProposal.objects.create(student=student,
+                                                      supervisor=supervisor,
+                                                      status='p')
+            serializer = ProposalSerializer(proposal)
+            return Response({'message': '1'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'message': 'pembimbing harus berlevel supervisor'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    @list_route(methods=['post'])
+    def input_code(self, request):
+        template = Template.objects.get(code=request.data['code'])
+        if template.assign(request.user):
+            return Response({'message': '1'})
+        else:
+            return Response({'message': 'kode template tidak tepat'})
 
 class SupervisorViewsets(viewsets.ModelViewSet):
     queryset = Member.objects.filter(level='sp')
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
 
-# class SupervisorRegister(AppKeyMixin, viewsets.ViewSet):
-#     """API untuk pendaftaran pembimbing"""
-#     def create(self, request):
-#         """Endpoint API untuk pendaftaran pembimbing"""
-#         invalid = self.appkey_check(request.data)
-#         if invalid:
-#             return invalid
-
-#         request.data['level'] = 'sp'
-#         serializer = RegisterSerializer(data=request.data)        
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(request.data)
-#         else:
-#             return Response(serializer.errors)
 
 @api_view(['GET'])
 def get_student(request):

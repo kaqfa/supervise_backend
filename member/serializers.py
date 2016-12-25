@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from app.models import Application
-from .models import Member
+from .models import Member, StudentProposal
 from rest_framework import status
 from django.contrib.auth.models import User
 
@@ -15,11 +15,6 @@ class RegisterSerializer(serializers.Serializer):
     address = serializers.CharField(required=False, allow_blank=True)
     phone = serializers.CharField(required=False, allow_blank=True)
     level = serializers.CharField(max_length=2)
-
-    # class Meta:
-    #     model = Member
-    #     fields = ('username', 'password', 'nim', 'npp', 'name', 'address',
-    #               'phone', 'email', 'level')
 
     def validate(self, attrs):
         if attrs.get('nim') is None and attrs.get('level') == 'st':
@@ -61,13 +56,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Member
         fields = ('user', 'nim', 'npp', 'address', 'phone')
 
-    # def update(self, instance, validated_data):
-    #     instance.nim = validated_data.get('nim', instance.nim)
-    #     instance.npp = validated_data.get('npp', instance.npp)
-    #     instance.name = validated_data.get('name', instance.name)
-    #     instance.address = validated_data.get('address', instance.address)
-    #     instance.phone = validated_data.get('phone', instance.phone)
-    #     instance.email = validated_data.get('email', instance.email)
-    #     instance.level = validated_data.get('level', instance.level)
 
-    #     return instance
+class ProposalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = StudentProposal
+        fields = ('student', 'supervisor', 'status', 'propose_date', 'response_data')

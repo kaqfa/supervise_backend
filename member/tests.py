@@ -111,32 +111,39 @@ class SupervisorTesting(APITestCase):
 
 class StudentTesting(APITestCase):
 
-    def setUp(self):
-        app = Application.objects.create(name="Testing App", code="123456")
-        self.appkey = app.code
-        self.password = 'qwerty123'
-        # self.super_token = 'edcba'
-        # self.student_token = 'abcde'
-        user = User.objects.create_user(username='supervisor', password=self.password,
-                                        email='supervisor@gmail.com', first_name="super",
-                                        last_name="visor")
-        Member.objects.create(user=user, npp='55555', level='sp', status='a')
-        # self.superv = superv
-        # MemberToken.objects.create(member=superv, token=self.super_token, status='a')
-
-        user = User.objects.create_user(username='student', password=self.password,
-                                        email='student@gmail.com', first_name="student",
-                                        last_name="bach")
-        Member.objects.create(user=user, nim='11111', level='st', status='a')
-        # self.student = student
-        # MemberToken.objects.create(member=student, token=self.student_token, status='a')
+    fixtures = ['fixtures/user.json', 'fixtures/member.json']
 
     def test_student_detail(self):
-        login = self.client.login(username='supervisor', password='qwerty123')        
-        url = '/students/5/' # reverse('student-detail', kwargs={'id': '5'})
+        login = self.client.login(username='supervisor', password='qwerty123')
+        url = '/students/110/' # reverse('student-detail', kwargs={'id': '5'})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        
+
         url = '/students/2/' #reverse('student-detail', kwargs={'id': '2'})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
+
+    def test_student_propose(self):
+        login = self.client.login(username='farhan', password='qwerty123')
+        url = '/students/propose/'
+
+        data = {'supervisor': '5'}
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        data = {'supervisor': '4'}
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_input_code(self):
+        login = self.client.login(username='farhan', password='qwerty123')
+        url = '/students/inputcode/'
+
+        data = {'code': '12345'}
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        data = {'code': 'qwerty'}
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+

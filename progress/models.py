@@ -1,5 +1,6 @@
 from django.db import models
 from member.models import Member, Expertise
+from datetime import datetime, timedelta
 
 
 class MediaFile(models.Model):
@@ -31,6 +32,13 @@ class Template(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True)
     task = models.ManyToManyField(Task)
+
+    def assign(self, student_id):
+        student = Member.objects.get(pk=student_id)
+        tasks = self.task.all()
+        for data in tasks:
+            enddate = datetime.now()+timedelta(days=data.duration)
+            StudentTask.objects.create(student=student, task=data, end_date=enddate)
 
 
 class StudentTask(models.Model):
