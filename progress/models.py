@@ -12,11 +12,17 @@ class MediaFile(models.Model):
 class Thesis(models.Model):
     topic = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
-    abstract = models.TextField(null=True)
+    abstract = models.TextField(null=True, blank=True)
     student = models.ForeignKey(Member)
     field = models.ManyToManyField(Expertise, blank=True)
     files = models.ManyToManyField(MediaFile, blank=True)
     save_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    def supervisor(self):
+        return self.student.supervisor.user.username
 
 
 class Task(models.Model):
@@ -50,6 +56,9 @@ class Template(models.Model):
     def num_of_task(self):
         return self.task.all().count()
 
+    def __str__(self):
+        return self.supervisor.user.username+"-"+self.name
+
 
 class TemplateTask(models.Model):
     template = models.ForeignKey(Template)
@@ -58,18 +67,28 @@ class TemplateTask(models.Model):
 
 
 class StudentTask(models.Model):
+    STATUS_CHOICE = (('1', 'belum dikerjakan'), ('2', 'selesai'),
+                     ('3', 'sudah dikerjakan'), ('4', 'kerjakan kembali'))
+
     student = models.ForeignKey(Member)
     task = models.ForeignKey(Task)
-    status = models.CharField(max_length=1, default='1')
+    status = models.CharField(max_length=1, default='1', choices=STATUS_CHOICE)
     created_date = models.DateField(auto_now_add=True)
     end_date = models.DateField()
 
+    # def get_student()
+
 
 class Comment(models.Model):
+    TYPE_CHOICE = (('w', 'pengerjaan'), ('e', 'penjelasan'),
+                   ('q', 'pertanyaan'))
+
     by = models.ForeignKey(Member)
     student_task = models.ForeignKey(StudentTask, null=True)
-    type = models.CharField(max_length=1, default='1')
+    type = models.CharField(max_length=1, default='w', choices=TYPE_CHOICE)
     text = models.TextField()
-    file = models.ManyToManyField(MediaFile)
+    file = models.ManyToManyField(MediaFile, blank=True)
     post_date = models.DateField(auto_now_add=True)
-    
+
+    def __str__(self):
+        return self.text
