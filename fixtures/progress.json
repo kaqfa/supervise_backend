@@ -1,0 +1,304 @@
+[
+{
+    "model": "progress.thesis",
+    "pk": 1,
+    "fields": {
+        "topic": "Prediksi Fuzzy",
+        "title": "Prediksi Akhir Zaman Dengan Fuzzy",
+        "abstract": "Akhir zaman sudah mendekat, namun bisa kita prediksi dengan meggunakan Fuzzy",
+        "student": 6,
+        "save_date": "2016-12-27",
+        "field": [],
+        "files": []
+    }
+},
+{
+    "model": "progress.task",
+    "pk": 1,
+    "fields": {
+        "name": "Bab 1",
+        "description": "Membuat Bab 1",
+        "duration": 14,
+        "files": []
+    }
+},
+{
+    "model": "progress.task",
+    "pk": 2,
+    "fields": {
+        "name": "Bab 2",
+        "description": "Membuat Landasan Teori",
+        "duration": 14,
+        "files": []
+    }
+},
+{
+    "model": "progress.task",
+    "pk": 3,
+    "fields": {
+        "name": "Bab 3",
+        "description": "Membuat Bab 3",
+        "duration": 14,
+        "files": []
+    }
+},
+{
+    "model": "progress.task",
+    "pk": 4,
+    "fields": {
+        "name": "Bab 4",
+        "description": "Membuat Hasil dan Pembahasan",
+        "duration": 14,
+        "files": []
+    }
+},
+{
+    "model": "progress.task",
+    "pk": 5,
+    "fields": {
+        "name": "Bab 5",
+        "description": "Membuat Kesimpulan dan Saran",
+        "duration": 14,
+        "files": []
+    }
+},
+{
+    "model": "progress.task",
+    "pk": 6,
+    "fields": {
+        "name": "Studi Pustaka",
+        "description": "Mempelajari beberapa teori yang berhubungan",
+        "duration": 14,
+        "files": []
+    }
+},
+{
+    "model": "progress.task",
+    "pk": 7,
+    "fields": {
+        "name": "Membuat Paper",
+        "description": "Membuat Paper publikasi tentang skripsi yang dibuat",
+        "duration": 14,
+        "files": []
+    }
+},
+{
+    "model": "progress.task",
+    "pk": 8,
+    "fields": {
+        "name": "Ujian Proposal",
+        "description": "Ujian Proposal",
+        "duration": 5,
+        "files": []
+    }
+},
+{
+    "model": "progress.task",
+    "pk": 9,
+    "fields": {
+        "name": "Ujian Akhir",
+        "description": "Ujian Thesis Defense",
+        "duration": 5,
+        "files": []
+    }
+},
+{
+    "model": "progress.template",
+    "pk": 1,
+    "fields": {
+        "supervisor": 7,
+        "code": "12345",
+        "name": "Standard Skripsi",
+        "description": "Ini template untuk Standard Skripsi"
+    }
+},
+{
+    "model": "progress.templatetask",
+    "pk": 1,
+    "fields": {
+        "template": 1,
+        "task": 1,
+        "order": 1
+    }
+},
+{
+    "model": "progress.templatetask",
+    "pk": 2,
+    "fields": {
+        "template": 1,
+        "task": 2,
+        "order": 2
+    }
+},
+{
+    "model": "progress.templatetask",
+    "pk": 3,
+    "fields": {
+        "template": 1,
+        "task": 3,
+        "order": 3
+    }
+},
+{
+    "model": "progress.templatetask",
+    "pk": 4,
+    "fields": {
+        "template": 1,
+        "task": 4,
+        "order": 4
+    }
+},
+{
+    "model": "progress.templatetask",
+    "pk": 5,
+    "fields": {
+        "template": 1,
+        "task": 5,
+        "order": 5
+    }
+},
+{
+    "model": "progress.templatetask",
+    "pk": 6,
+    "fields": {
+        "template": 1,
+        "task": 9,
+        "order": 6
+    }
+},
+{
+    "model": "progress.templatetask",
+    "pk": 7,
+    "fields": {
+        "template": 1,
+        "task": 7,
+        "order": 7
+    }
+},
+{
+    "model": "progress.studenttask",
+    "pk": 2,
+    "fields": {
+        "student": 6,
+        "task": 1,
+        "status": "2",
+        "created_date": "2016-12-27",
+        "end_date": "2016-12-26"
+    }
+},
+{
+    "model": "progress.studenttask",
+    "pk": 3,
+    "fields": {
+        "student": 6,
+        "task": 2,
+        "status": "4",
+        "created_date": "2016-12-27",
+        "end_date": "2017-01-02"
+    }
+},
+{
+    "model": "progress.studenttask",
+    "pk": 4,
+    "fields": {
+        "student": 6,
+        "task": 3,
+        "status": "1",
+        "created_date": "2016-12-27",
+        "end_date": "2017-01-09"
+    }
+},
+{
+    "model": "progress.studenttask",
+    "pk": 5,
+    "fields": {
+        "student": 6,
+        "task": 4,
+        "status": "1",
+        "created_date": "2016-12-27",
+        "end_date": "2017-01-16"
+    }
+},
+{
+    "model": "progress.studenttask",
+    "pk": 6,
+    "fields": {
+        "student": 6,
+        "task": 5,
+        "status": "1",
+        "created_date": "2016-12-27",
+        "end_date": "2017-01-23"
+    }
+},
+{
+    "model": "progress.studenttask",
+    "pk": 7,
+    "fields": {
+        "student": 6,
+        "task": 9,
+        "status": "1",
+        "created_date": "2016-12-27",
+        "end_date": "2017-01-30"
+    }
+},
+{
+    "model": "progress.comment",
+    "pk": 1,
+    "fields": {
+        "by": 6,
+        "student_task": 2,
+        "type": "q",
+        "text": "apakah saya berarti harus membuat bab 1 pak?",
+        "post_date": "2016-12-27",
+        "file": []
+    }
+},
+{
+    "model": "progress.comment",
+    "pk": 2,
+    "fields": {
+        "by": 7,
+        "student_task": 2,
+        "type": "e",
+        "text": "oh tentu saja",
+        "post_date": "2016-12-27",
+        "file": []
+    }
+},
+{
+    "model": "progress.comment",
+    "pk": 3,
+    "fields": {
+        "by": 6,
+        "student_task": 2,
+        "type": "w",
+        "text": "Oke siap, ini sudah selesai semoga sesuai yang diharapkan.",
+        "post_date": "2016-12-27",
+        "file": []
+    }
+},
+{
+    "model": "progress.comment",
+    "pk": 4,
+    "fields": {
+        "by": 6,
+        "student_task": 3,
+        "type": "w",
+        "text": "Ini kerjaan saya semoga seusai ya pak",
+        "post_date": "2016-12-27",
+        "file": []
+    }
+},
+{
+    "model": "progress.comment",
+    "pk": 5,
+    "fields": {
+        "by": 6,
+        "student_task": 3,
+        "type": "e",
+        "text": "Apa ini, masih banyak koreksinya. Ayo dibenerin lagi",
+        "post_date": "2016-12-27",
+        "file": []
+    }
+}
+]
