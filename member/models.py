@@ -15,7 +15,7 @@ class Member(models.Model):
     LEVEL_CHOICES = (('st', 'mahasiswa'), ('sp', 'pembimbing'))
     STATUS_CHOICES = (('a', 'aktif'), ('b', 'banned'), ('n', 'nonaktif'))
     
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User)
     nim = models.CharField(max_length=20, null=True, blank=True)
     npp = models.CharField(max_length=20, null=True, blank=True)
     address = models.TextField(null=True, blank=True)

@@ -4,6 +4,7 @@ from rest_framework import status
 # from app.tests import TestMother 
 from app.models import Application
 from .models import Member
+from progress.models import StudentTask
 from django.contrib.auth.models import User
 from collections import Counter
 
@@ -111,7 +112,7 @@ class SupervisorTesting(APITestCase):
 
 class StudentTesting(APITestCase):
 
-    fixtures = ['fixtures/user.json', 'fixtures/member.json']
+    fixtures = ['fixtures/user.json', 'fixtures/member.json', 'fixtures/progress.json']
 
     def test_student_detail(self):
         login = self.client.login(username='supervisor', password='qwerty123')
@@ -137,13 +138,18 @@ class StudentTesting(APITestCase):
 
     def test_input_code(self):
         login = self.client.login(username='farhan', password='qwerty123')
-        url = '/students/inputcode/'
+        url = '/students/input_code/'
 
         data = {'code': '12345'}
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK,
+                         response.content)
+        user = User.objects.get(username='farhan')
+        tasks = user.member.studenttask_set.all()
+        self.assertEqual(tasks.count(), 7, tasks)
 
         data = {'code': 'qwerty'}
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST,
+                         response.content)
 

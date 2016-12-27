@@ -10,6 +10,7 @@ from app.views import AppKeyMixin, app_key_required
 from .serializers import RegisterSerializer, ProfileSerializer
 from .serializers import UserSerializer, ProposalSerializer
 from member.models import Member, User, StudentProposal
+from progress.models import StudentTask, Template
 
 
 class UserViewsets(viewsets.ModelViewSet):
@@ -60,11 +61,13 @@ class StudentViewsets(viewsets.ModelViewSet):
 
     @list_route(methods=['post'])
     def input_code(self, request):
-        template = Template.objects.get(code=request.data['code'])
-        if template.assign(request.user):
+        try:
+            template = Template.objects.get(code=request.data['code'])
+            template.assign(request.user.id)
             return Response({'message': '1'})
-        else:
-            return Response({'message': 'kode template tidak tepat'})
+        except Template.DoesNotExist:
+            return Response({'message': 'kode template tidak tepat'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
 class SupervisorViewsets(viewsets.ModelViewSet):
     queryset = Member.objects.filter(level='sp')

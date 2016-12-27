@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 from member.models import Member, Expertise
 from datetime import datetime, timedelta
 
@@ -45,13 +47,15 @@ class Template(models.Model):
     description = models.TextField(null=True)
     task = models.ManyToManyField(Task, through="TemplateTask", blank=True)
 
-    def assign(self, student_id):
-        student = Member.objects.get(pk=student_id)
+    def assign(self, user):
+        user = User.objects.get(pk=user)
+        student = Member.objects.get(user=user)
         tasks = self.task.all()
         for data in tasks:
             enddate = datetime.now()+timedelta(days=data.duration)
             StudentTask.objects.create(student=student, task=data,
                                        end_date=enddate)
+        return True
 
     def num_of_task(self):
         return self.task.all().count()
