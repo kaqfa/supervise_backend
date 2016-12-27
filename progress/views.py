@@ -3,13 +3,27 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
-from .models import Thesis, Task, Template
-from .serializers import ThesisSerializer
+from .models import Thesis, Task, Template, StudentTask
+from .serializers import ThesisSerializer, TaskSerializer
+from .serializers import StudentTaskSerializer, FormStudentTaskSerializer
+from member.models import Member
 
 
-class ThesisViewsets(viewsets.ModelViewSet):    
+class ThesisViewsets(viewsets.ModelViewSet):
     queryset = Thesis.objects.all()
     serializer_class = ThesisSerializer
+
+
+class StudentTaskViewsets(viewsets.ModelViewSet):    
+
+    def get_queryset(self):
+        member = Member.objects.get(user=request.user)
+        return StudentTask.objects.filter(student=member)
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return FormStudentTaskSerializer
+        return StudentTaskSerializer
 
 
 @api_view(['GET'])
