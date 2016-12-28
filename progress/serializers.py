@@ -43,6 +43,16 @@ class TemplateSerializer(serializers.ModelSerializer):
                 template.task.add(data)
         return template
 
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        # tasks = validated_data.get('task', None)
+        # for data in tasks:
+        #     task = Task.objects.create(name=data.name, description=data.description,
+        #                                duration=data.duration)
+        #     instance.task.add(task)
+        return instance
+
 
 class StudentTaskSerializer(serializers.ModelSerializer):
     task = TaskSerializer()

@@ -13,7 +13,7 @@ class TemplateViewsets(viewsets.ModelViewSet):
     serializer_class = TemplateSerializer
 
     def get_queryset(self):
-        return Thesis.objects.filter(supervisor__user=self.request.user)
+        return Template.objects.filter(supervisor__user=self.request.user)
 
 
 class ThesisViewsets(viewsets.ModelViewSet):

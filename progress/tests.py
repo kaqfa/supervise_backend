@@ -21,6 +21,20 @@ class TemplateTest(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_update_template(self):
+        url = '/templates/1/'
+        self.client.login(username='supervisor', password='qwerty123')
+        data = {'name': 'template istimewa', 'description': 'template yang istimewa'}
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
+
+        data = {'name': 'template biasa aja'}
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
+
+    def test_delete_template(self):
+        pass
+
 
 class ThesisTest(APITestCase):
 
