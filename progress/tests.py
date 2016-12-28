@@ -1,6 +1,7 @@
 from django.test import TestCase
 from rest_framework.test import APITestCase
 from rest_framework import status
+from .models import Template
 
 
 class TemplateTest(APITestCase):
@@ -33,7 +34,15 @@ class TemplateTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
 
     def test_delete_template(self):
-        pass
+        url = '/templates/1/'
+        self.client.login(username='supervisor', password='qwerty123')
+        # data = {'name': 'template istimewa', 'description': 'template yang istimewa'}
+        exist = Template.objects.filter(pk=1)
+        self.assertEqual(exist.count(), 1)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        exist = Template.objects.filter(pk=1)
+        self.assertEqual(exist.count(), 0)
 
 
 class ThesisTest(APITestCase):
