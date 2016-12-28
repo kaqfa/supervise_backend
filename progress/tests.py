@@ -2,7 +2,25 @@ from django.test import TestCase
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-# Create your tests here.
+
+class TemplateTest(APITestCase):
+
+    fixtures = ['fixtures/user.json', 'fixtures/member.json',
+                'fixtures/progress.json']
+
+    def test_create_template(self):
+        url = '/templates/'
+        self.client.login(username='supervisor', password='qwerty123')
+        data = {'name': 'template biasa',
+                'description': 'template skripsi seperti biasanya'}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED,
+                         response.content)
+
+        data = {'name': 'template lainnya'}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
 
 class ThesisTest(APITestCase):
 

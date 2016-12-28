@@ -1,8 +1,10 @@
 from rest_framework import serializers
 from .models import Thesis, Task, Template, StudentTask
-from member.models import User
+from member.models import User, Member
 from member.serializers import UserSerializer
 from datetime import datetime, timedelta
+
+import uuid
 
 class ThesisSerializer(serializers.ModelSerializer):
 
@@ -16,6 +18,30 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ('name', 'description', 'duration', 'files')
+
+
+class TemplateSerializer(serializers.ModelSerializer):
+    task = TaskSerializer(many=True, required=False)
+    code = serializers.CharField(max_length=5, required=False)
+
+    class Meta:
+        model = Template
+        fields = ('supervisor', 'code', 'name',
+                  'description', 'task')
+
+    def create(self, validated_data):
+        data = {'code': uuid.uuid4().hex[:5],
+                'supervisor': Member.objects.get(user=self.context['request'].user),
+                'name': validated_data.get('name'),
+                'description': validated_data.get('description', None)}
+        if Template.objects.filter(code=data['code']).count() > 0:
+            data['code'] = uuid.uuid4().hex[:5]
+        template = Template.objects.create(**data)
+        tasks = validated_data.get('task', None)
+        if tasks != None:
+            for data in tasks:
+                template.task.add(data)
+        return template
 
 
 class StudentTaskSerializer(serializers.ModelSerializer):

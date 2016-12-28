@@ -42,7 +42,7 @@ class Task(models.Model):
 
 class Template(models.Model):
     supervisor = models.ForeignKey(Member, null=True)
-    code = models.CharField(max_length=5)
+    code = models.CharField(max_length=5, unique=True)
     name = models.CharField(max_length=100)
     description = models.TextField(null=True)
     task = models.ManyToManyField(Task, through="TemplateTask", blank=True)

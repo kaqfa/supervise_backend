@@ -88,6 +88,15 @@ class StudentTesting(APITestCase):
 
     fixtures = ['fixtures/user.json', 'fixtures/member.json', 'fixtures/progress.json']
 
+    def test_student_list(self):
+        url = '/students/'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client.login(username='supervisor', password='qwerty123')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_student_detail(self):
         login = self.client.login(username='supervisor', password='qwerty123')
         url = '/students/110/' # reverse('student-detail', kwargs={'id': '5'})

@@ -4,9 +4,16 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
 from .models import Thesis, Task, Template, StudentTask
-from .serializers import ThesisSerializer, TaskSerializer
+from .serializers import ThesisSerializer, TaskSerializer, TemplateSerializer
 from .serializers import StudentTaskSerializer, FormStudentTaskSerializer
 from member.models import Member
+
+
+class TemplateViewsets(viewsets.ModelViewSet):
+    serializer_class = TemplateSerializer
+
+    def get_queryset(self):
+        return Thesis.objects.filter(supervisor__user=self.request.user)
 
 
 class ThesisViewsets(viewsets.ModelViewSet):
