@@ -9,6 +9,7 @@ from app.models import Application
 from app.views import AppKeyMixin, app_key_required
 from .serializers import RegisterSerializer, ProfileSerializer
 from .serializers import UserSerializer, ProposalSerializer
+from progress.serializers import StudentProgressSerializer
 from member.models import Member, User, StudentProposal
 from progress.models import StudentTask, Template
 
@@ -69,10 +70,21 @@ class StudentViewsets(viewsets.ModelViewSet):
             return Response({'message': 'kode template tidak tepat'},
                             status=status.HTTP_400_BAD_REQUEST)
 
+
 class SupervisorViewsets(viewsets.ModelViewSet):
     queryset = Member.objects.filter(level='sp')
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
+
+    @list_route(methods=['get'])
+    def get_student_progress(self, request):
+        supervisor = Member.objects.get(user=self.request.user)
+        students = Member.objects.filter(supervisor=supervisor)
+        progress = []
+        for data in students:
+            progress.append(data.get_progress_data())
+        # serial = StudentProgressSerializer(progress)
+        return Response(progress)
 
 
 @api_view(['GET'])

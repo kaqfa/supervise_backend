@@ -30,6 +30,6 @@ class TaskTest(APITestCase):
         url = '/tasks/'
 
         data = {'student': 'farhan', 'name': 'tugas baru', 'description': 'membuat tugas',
-                'duration': 5, 'files': None}
+                'duration': 5}
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.content)

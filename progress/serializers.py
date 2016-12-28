@@ -26,6 +26,15 @@ class StudentTaskSerializer(serializers.ModelSerializer):
         fields = ('student', 'task', 'status', 'created_date', 'end_date')
 
 
+class StudentProgressSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=20)
+    nim = serializers.CharField(max_length=20)
+    name = serializers.CharField(max_length=50)
+    thesis = ThesisSerializer
+    number_of_task = serializers.IntegerField()
+    number_of_done = serializers.IntegerField()
+
+
 class FormStudentTaskSerializer(serializers.Serializer):
     student = serializers.CharField(max_length=20)
     name = serializers.CharField(max_length=100)
