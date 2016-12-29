@@ -67,3 +67,12 @@ class StudentProposal(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
     propose_date = models.DateTimeField(auto_now_add=True)
     response_date = models.DateTimeField(auto_now=True)
+
+    def response(self, code):
+        self.status = code
+        self.save()
+
+        if code == 'a':
+            student = self.student
+            student.supervisor = self.supervisor
+            student.save()

@@ -86,6 +86,14 @@ class SupervisorViewsets(viewsets.ModelViewSet):
         # serial = StudentProgressSerializer(progress)
         return Response(progress)
 
+    @list_route(methods=['post'])
+    def response(self, request):
+        username = request.data['username']
+        student = Member.objects.get(user__username=username)
+        prop = StudentProposal.objects.get(student=student, supervisor__user=request.user)
+        prop.response(request.data['code'])
+        return Response({'code': '1'})
+
 
 @api_view(['GET'])
 def get_student(request):

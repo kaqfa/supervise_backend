@@ -3,7 +3,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 # from app.tests import TestMother 
 from app.models import Application
-from .models import Member
+from .models import Member, StudentProposal
 from progress.models import StudentTask
 from django.contrib.auth.models import User
 from collections import Counter
@@ -82,6 +82,21 @@ class SupervisorTesting(APITestCase):
         response = self.client.get(url)
         # st = StudentTask.objects.all()
         self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
+
+    def test_response_proposal(self):
+        farhan = Member.objects.get(user__username='farhan')
+        rancho = Member.objects.get(user__username='rancho')
+        StudentProposal.objects.create(student=farhan, supervisor=rancho, status='p')
+
+        url = '/supervisors/response/'
+        self.client.login(username='rancho', password='qwerty123')
+        data = {'username': 'farhan', 'code': 'a'}
+        response = self.client.post(url, data)
+        self.assertEquals(response.status_code, status.HTTP_200_OK, response.content)
+        prop = StudentProposal.objects.get(student=farhan, supervisor=rancho)
+        self.assertEqual(prop.status, 'a')
+        farhan = Member.objects.get(user__username='farhan')
+        self.assertEqual(farhan.supervisor.user.username, 'rancho', farhan)
 
 
 class StudentTesting(APITestCase):
