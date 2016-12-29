@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Thesis, Task, Template, StudentTask
+from .models import Thesis, Task, Template, StudentTask, Comment
 from member.models import User, Member
 from member.serializers import UserSerializer
 from datetime import datetime, timedelta
@@ -14,7 +14,15 @@ class ThesisSerializer(serializers.ModelSerializer):
                   'field', 'files', 'save_date')
 
 
-class TaskSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ('student_task', 'by', 'type', 'text', 'file', 'post_date')
+
+
+class TaskSerializer(serializers.ModelSerializer):    
+
     class Meta:
         model = Task
         fields = ('name', 'description', 'duration', 'files')
@@ -56,10 +64,11 @@ class TemplateSerializer(serializers.ModelSerializer):
 
 class StudentTaskSerializer(serializers.ModelSerializer):
     task = TaskSerializer()
+    comment_set = CommentSerializer(many=True)
 
     class Meta:
         model = StudentTask
-        fields = ('student', 'task', 'status', 'created_date', 'end_date')
+        fields = ('student', 'task', 'status', 'comment_set', 'created_date', 'end_date')
 
 
 class StudentProgressSerializer(serializers.Serializer):

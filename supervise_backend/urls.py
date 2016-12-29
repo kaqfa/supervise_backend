@@ -26,10 +26,11 @@ router = routers.DefaultRouter()
 router.register(r'app/appregister', appview.RegisterApp, base_name='app-register')
 # router.register(r'f/auth', memviews.Login, base_name='app-login')
 # router.register(r'app/members/(?P<username>.+)/$', memviews.MemberList, base_name='member-list')
+# router.register(r'su/editprofil', memviews.SupervisorProfile, base_name='supervisor-edit-profile')
 router.register(r'app/register', memviews.RegisterViewset, base_name='member-register')
-router.register(r'su/editprofil', memviews.SupervisorProfile, base_name='supervisor-edit-profile')
 router.register(r'students', memviews.StudentViewsets, base_name='student')
 router.register(r'supervisors', memviews.SupervisorViewsets, base_name='supervisor')
+router.register(r'expertises', memviews.ExpertiseViewsets, base_name='expertise')
 router.register(r'theses', progviews.ThesisViewsets, base_name='thesis')
 router.register(r'templates', progviews.TemplateViewsets, base_name='template')
 router.register(r'tasks', progviews.StudentTaskViewsets, base_name='task')
@@ -43,47 +44,4 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^foo/', foo_view),
     # url(r'^f/auth', memviews.login),
-    url(r'^f/createcomment', progviews.create_comment),
-    url(r'^f/creatework', progviews.create_work),
-    url(r'^f/deletecomment', progviews.delete_comment),
-    url(r'^f/download', appview.download_file),
-    url(r'^f/getallfield', appview.get_all_expertise),
-    url(r'^f/getgraduated', memviews.graduated_student),
-    url(r'^f/gettask', progviews.get_task),
-    url(r'^f/getungraduated', memviews.ungraduated_student),
-    url(r'^f/getusername', memviews.get_username),
-    # url(r'^f/isexist', memviews.is_username_exist),
-    url(r'^f/resetpassword', memviews.reset_password),
-    url(r'^f/search', memviews.search_by_expertise),
-    url(r'^f/searchfield', appview.search_expertise),
-    url(r'^g/getlistthesis', appview.get_thesis_list),
-    # url(r'^g/app', appview.register_app),
-    url(r'^s/claim', progviews.submit_final),
-    url(r'^s/editprofil', memviews.student_profile),
-    url(r'^s/get', memviews.get_student),
-    url(r'^s/getall', memviews.get_all_students),
-    url(r'^s/inputcode', memviews.input_code),
-    url(r'^s/propose', memviews.student_propose),
-    # url(r'^s/register', memviews.student_register),
-    url(r'^s/savethesis', memviews.save_thesis),
-    url(r'^su/addtask', progviews.add_template_task),
-    url(r'^su/claim', progviews.validate_final),
-    url(r'^su/createtask', progviews.create_task),
-    url(r'^su/createtemplate', progviews.create_template),
-    url(r'^su/deletefield', memviews.delete_expertise),
-    url(r'^su/deletetask', progviews.delete_task),
-    url(r'^su/deletetemplate', progviews.delete_template),
-    # url(r'^su/editprofil', memviews.supervisor_profile),
-    url(r'^su/get', memviews.get_supervisor),
-    url(r'^su/getall', memviews.get_all_supervisors),
-    url(r'^su/getstudentprogress', progviews.student_progress),
-    url(r'^su/issupervisor', memviews.is_student_supervisor),
-    # url(r'^su/register', memviews.SupervisorRegister),
-    url(r'^su/removetask', progviews.del_template_task),
-    url(r'^su/response', memviews.respond_proposal),
-    url(r'^su/savefield', memviews.save_expertise),
-    url(r'^su/updatetask', progviews.update_task),
-    url(r'^su/updatetasktemplate', progviews.edit_template_task),
-    url(r'^su/updatetemplate', progviews.update_template),
-    url(r'^su/validation', progviews.validate_task),
 ]

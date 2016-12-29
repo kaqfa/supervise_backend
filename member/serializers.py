@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from app.models import Application
-from .models import Member, StudentProposal
+from .models import Member, StudentProposal, Expertise
 from rest_framework import status
 from django.contrib.auth.models import User
 
@@ -40,6 +40,13 @@ class RegisterSerializer(serializers.Serializer):
                       'phone':validated_data.get('phone', None),
                       'level':validated_data.get('level')}
         return Member.objects.create(**memberdata)
+
+
+class ExpertiseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Expertise
+        fields = ('name', 'description')
 
 
 class UserSerializer(serializers.ModelSerializer):
