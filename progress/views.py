@@ -2,12 +2,13 @@
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 
 from .models import Thesis, Task, Template, StudentTask
 from .serializers import ThesisSerializer, TaskSerializer, TemplateSerializer
 from .serializers import StudentTaskSerializer, FormStudentTaskSerializer
+from .serializers import CommentSerializer
 from member.models import Member
 from rest_framework.permissions import IsAuthenticated
 
@@ -45,3 +46,13 @@ class StudentTaskViewsets(viewsets.ModelViewSet):
         studenttasks = StudentTask.objects.filter(student=student)
         task = StudentTaskSerializer(studenttasks, many=True)
         return Response(task.data)
+
+    @detail_route(methods=['post'])
+    def comment(self, request, pk):
+        student_task = StudentTask.objects.get(pk=pk)
+        data = {'student_task': student_task.pk, 'by': request.user.member.id,
+                'type': request.data['type'], 'text': request.data['text']}
+        comment = CommentSerializer(data=data)
+        if comment.is_valid():
+            comment.save()
+        return Response(comment.data, status=status.HTTP_201_CREATED)

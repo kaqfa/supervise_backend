@@ -21,7 +21,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('student_task', 'by', 'type', 'text', 'file', 'post_date')
 
 
-class TaskSerializer(serializers.ModelSerializer):    
+class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task

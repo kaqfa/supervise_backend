@@ -23,7 +23,7 @@ class UserViewsets(viewsets.ModelViewSet):
 
 
 class MemberList(generics.ListAPIView):
-    serializer_class = ProfileSerializer    
+    serializer_class = ProfileSerializer
 
     def get_queryset(self):
         username = self.kwargs['username']
@@ -71,7 +71,7 @@ class StudentViewsets(viewsets.ModelViewSet):
             return Response({'message': '1'})
         except Template.DoesNotExist:
             return Response({'message': 'kode template tidak tepat'},
-                            status=status.HTTP_400_BAD_REQUEST)    
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class SupervisorViewsets(viewsets.ModelViewSet):
