@@ -39,8 +39,8 @@ class TemplateTest(APITestCase):
         # data = {'name': 'template istimewa', 'description': 'template yang istimewa'}
         exist = Template.objects.filter(pk=1)
         self.assertEqual(exist.count(), 1)
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        response = self.client.delete(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT, response.content)
         exist = Template.objects.filter(pk=1)
         self.assertEqual(exist.count(), 0)
 
@@ -52,6 +52,7 @@ class ThesisTest(APITestCase):
     def test_create_theses(self):
         url = '/theses/'
         data = {'topic': 'the topic', 'title': 'the tittle'}
+        self.client.login(username='supervisor', password='qwerty123')
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -69,8 +70,16 @@ class TaskTest(APITestCase):
 
     def test_create_task_for_student(self):
         url = '/tasks/'
+        self.client.login(username='supervisor', password='qwerty123')
 
         data = {'student': 'farhan', 'name': 'tugas baru', 'description': 'membuat tugas',
                 'duration': 5}
         response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.content)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    
+    def test_student_task(self):
+        url = '/tasks/student_task/'
+        self.client.login(username='supervisor', password='qwerty123')
+        
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)

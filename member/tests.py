@@ -46,14 +46,14 @@ class MemberTesting(APITestCase):
         student = Member.objects.filter(user__username='stud').values()[0]
         self.assertEqual(student['nim'], data['nim'])
 
-    def test_is_username_exists(self):
+    def test_is_username_exists(self):        
         user = User.objects.create(username='user', password='pass',
                                    email='user@email.com', first_name="stud")
         Member.objects.create(user=user, nim='123', level="st")
         url = '/app/members/user/'
 
         response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
 
 
 class SupervisorTesting(APITestCase):
@@ -73,7 +73,7 @@ class SupervisorTesting(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
         url = '/supervisors/3/' #reverse('student-detail', kwargs={'id': '2'})
-        response = self.client.get(url)
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
 
     def test_get_student_progress(self):

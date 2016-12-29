@@ -1,6 +1,6 @@
 """View untuk handling request student dan supervisor"""
 
-from rest_framework.decorators import api_view, list_route
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
 from rest_framework.permissions import IsAuthenticated
@@ -23,8 +23,7 @@ class UserViewsets(viewsets.ModelViewSet):
 
 
 class MemberList(generics.ListAPIView):
-    serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
+    serializer_class = ProfileSerializer    
 
     def get_queryset(self):
         username = self.kwargs['username']
@@ -72,14 +71,7 @@ class StudentViewsets(viewsets.ModelViewSet):
             return Response({'message': '1'})
         except Template.DoesNotExist:
             return Response({'message': 'kode template tidak tepat'},
-                            status=status.HTTP_400_BAD_REQUEST)
-
-    @list_route(methods=['get'])
-    def task(self, request):
-        student = Member.objects.get(user=self.request.user)
-        studenttasks = StudentTask.objects.filter(student=student)
-        task = StudentTaskSerializer(studenttasks, many=True)
-        return Response(task.data)
+                            status=status.HTTP_400_BAD_REQUEST)    
 
 
 class SupervisorViewsets(viewsets.ModelViewSet):

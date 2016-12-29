@@ -3,6 +3,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
+from rest_framework.decorators import detail_route, list_route
+
 from .models import Thesis, Task, Template, StudentTask
 from .serializers import ThesisSerializer, TaskSerializer, TemplateSerializer
 from .serializers import StudentTaskSerializer, FormStudentTaskSerializer
@@ -37,3 +39,9 @@ class StudentTaskViewsets(viewsets.ModelViewSet):
             return FormStudentTaskSerializer
         return StudentTaskSerializer
 
+    @list_route(methods=['get'])
+    def student_task(self, request):
+        student = Member.objects.get(user=self.request.user)
+        studenttasks = StudentTask.objects.filter(student=student)
+        task = StudentTaskSerializer(studenttasks, many=True)
+        return Response(task.data)
