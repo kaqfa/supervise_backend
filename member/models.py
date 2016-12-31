@@ -17,7 +17,8 @@ class Expertise(models.Model):
 class Member(models.Model):
     """Pengganti User, include student dan supervisor"""
     LEVEL_CHOICES = (('st', 'mahasiswa'), ('sp', 'pembimbing'))
-    STATUS_CHOICES = (('a', 'aktif'), ('b', 'banned'), ('n', 'nonaktif'))
+    STATUS_CHOICES = (('a', 'aktif'), ('b', 'banned'), ('n', 'nonaktif'),
+                      ('g', 'lulus'))
 
     user = models.OneToOneField(User)
     nim = models.CharField(max_length=20, null=True, blank=True)

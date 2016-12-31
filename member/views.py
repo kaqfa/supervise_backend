@@ -13,8 +13,8 @@ from progress.serializers import StudentProgressSerializer, TaskSerializer
 from progress.serializers import StudentTaskSerializer
 from member.models import Member, User, StudentProposal, Expertise
 from progress.models import StudentTask, Template, Task
-# from django_filters.rest_framework import DjangoFilterBackend
-
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 class UserViewsets(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -46,8 +46,13 @@ class RegisterViewset(AppKeyMixin, viewsets.ViewSet):
 
 class StudentViewsets(viewsets.ModelViewSet):
     queryset = Member.objects.filter(level='st')
-    serializer_class = ProfileSerializer
+
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.action == 'update':
+            return RegisterSerializer
+        return ProfileSerializer
 
     @list_route(methods=['post'])
     def propose(self, request):
@@ -73,6 +78,16 @@ class StudentViewsets(viewsets.ModelViewSet):
             return Response({'message': 'kode template tidak tepat'},
                             status=status.HTTP_400_BAD_REQUEST)
 
+    @detail_route(methods=['put'])
+    def claim(self, request, pk):
+        student = Member.objects.get(pk=pk)
+        student.status = 'g'
+        student.save()
+        if request.data['files'] != None:
+            print('print upload files')
+        student = ProfileSerializer(student, context={'request':request})
+        return Response(student.data)
+
 
 class SupervisorViewsets(viewsets.ModelViewSet):
     queryset = Member.objects.filter(level='sp')
@@ -97,9 +112,22 @@ class SupervisorViewsets(viewsets.ModelViewSet):
         prop.response(request.data['code'])
         return Response({'code': '1'})
 
+    @detail_route(methods=['get'])
+    def graduated(self, request, pk):
+        graduated = Member.objects.filter(supervisor=pk, status='g')
+        students = ProfileSerializer(graduated, many=True, context={'request': request})
+        return Response(students.data)
+
+    @detail_route(methods=['get'])
+    def ungraduated(self, request, pk):
+        graduated = Member.objects.filter(supervisor=pk, status='a')
+        students = ProfileSerializer(graduated, many=True, context={'request': request})
+        return Response(students.data)
+
 
 class ExpertiseViewsets(viewsets.ModelViewSet):
     queryset = Expertise.objects.all()
     serializer_class = ExpertiseSerializer
-    # filter_backends = (DjangoFilterBackend,)
-    # filter_fields = ('name', 'description')
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_fields = ['name', 'description']
+    search_fields = ['name', 'description']

@@ -91,3 +91,10 @@ class TaskTest(APITestCase):
         data = {'type': 'e', 'text': 'ayo dikerjakan'}
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.content)
+
+    def test_validate_task(self):
+        url = '/tasks/2/validate/'
+        self.client.login(username='supervisor', password='qwerty123')
+
+        response = self.client.put(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)

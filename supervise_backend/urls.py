@@ -36,7 +36,9 @@ router.register(r'templates', progviews.TemplateViewsets, base_name='template')
 router.register(r'tasks', progviews.StudentTaskViewsets, base_name='task')
 router.register(r'users', memviews.UserViewsets, base_name='user')
 
-urlpatterns = [
+urlpatterns = [    
+    url(r'^grappelli/', include('grappelli.urls')),
+    url(r'^admin/', include('smuggler.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'', include(router.urls)),
     url(r'app/members/(?P<username>.+)/$', memviews.MemberList.as_view()),

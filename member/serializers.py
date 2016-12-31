@@ -39,7 +39,8 @@ class RegisterSerializer(serializers.Serializer):
                       'address':validated_data.get('address', None),
                       'phone':validated_data.get('phone', None),
                       'level':validated_data.get('level')}
-        return Member.objects.create(**memberdata)
+        return Member.objects.create(**memberdata)    
+
 
 
 class ExpertiseSerializer(serializers.ModelSerializer):
@@ -61,7 +62,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Member
-        fields = ('user', 'nim', 'npp', 'address', 'phone')
+        fields = ('user', 'nim', 'npp', 'address', 'phone', 'status')
 
 
 class ProposalSerializer(serializers.ModelSerializer):

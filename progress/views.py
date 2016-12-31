@@ -56,3 +56,11 @@ class StudentTaskViewsets(viewsets.ModelViewSet):
         if comment.is_valid():
             comment.save()
         return Response(comment.data, status=status.HTTP_201_CREATED)
+
+    @detail_route(methods=['put'])
+    def validate(self, request, pk):
+        student_task = StudentTask.objects.get(pk=pk)
+        student_task.status = '2'
+        student_task.save()
+        serialize = StudentTaskSerializer(student_task)
+        return Response(serialize.data)

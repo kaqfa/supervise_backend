@@ -1,107 +1,190 @@
 [
 {
-    "model": "member.member",
-    "pk": 1,
-    "fields": {
-        "user": 6,
-        "nim": "a12345",
-        "npp": "",
-        "address": "india",
-        "phone": "09087654321",
-        "level": "st",
-        "status": "a",
-        "supervisor": 4,
-        "expertise": []
-    }
+  "model": "member.expertise",
+  "pk": 1,
+  "fields": {
+    "name": "Data Mining",
+    "description": "Mining the valuable data"
+  }
 },
 {
-    "model": "member.member",
-    "pk": 2,
-    "fields": {
-        "user": 5,
-        "nim": "a2345",
-        "npp": "",
-        "address": "india",
-        "phone": "0876543219",
-        "level": "st",
-        "status": "a",
-        "supervisor": null,
-        "expertise": []
-    }
+  "model": "member.expertise",
+  "pk": 2,
+  "fields": {
+    "name": "Machine Learning",
+    "description": "Let the machine learn everything"
+  }
 },
 {
-    "model": "member.member",
-    "pk": 3,
-    "fields": {
-        "user": 4,
-        "nim": "",
-        "npp": "12345",
-        "address": "india",
-        "phone": "0123456789",
-        "level": "sp",
-        "status": "a",
-        "supervisor": null,
-        "expertise": []
-    }
+  "model": "member.expertise",
+  "pk": 3,
+  "fields": {
+    "name": "Natural Language Processing",
+    "description": "Processing the natural language"
+  }
 },
 {
-    "model": "member.member",
-    "pk": 4,
-    "fields": {
-        "user": 8,
-        "nim": "",
-        "npp": "23456",
-        "address": "india",
-        "phone": "0234567891",
-        "level": "sp",
-        "status": "a",
-        "supervisor": null,
-        "expertise": []
-    }
+  "model": "member.expertise",
+  "pk": 4,
+  "fields": {
+    "name": "Web Service",
+    "description": "Service the existing web"
+  }
 },
 {
-    "model": "member.member",
-    "pk": 5,
-    "fields": {
-        "user": 7,
-        "nim": "a3456",
-        "npp": "",
-        "address": "india",
-        "phone": "0765432198",
-        "level": "st",
-        "status": "a",
-        "supervisor": 3,
-        "expertise": []
-    }
+  "model": "member.expertise",
+  "pk": 5,
+  "fields": {
+    "name": "Information Retrieval",
+    "description": "Retrieve an Information from data"
+  }
 },
 {
-    "model": "member.member",
-    "pk": 6,
-    "fields": {
-        "user": 3,
-        "nim": "a45678",
-        "npp": "",
-        "address": "semarang",
-        "phone": "0654321987",
-        "level": "st",
-        "status": "a",
-        "supervisor": 7,
-        "expertise": []
-    }
+  "model": "member.expertise",
+  "pk": 6,
+  "fields": {
+    "name": "Web Application",
+    "description": "Application based on web technology"
+  }
 },
 {
-    "model": "member.member",
-    "pk": 7,
-    "fields": {
-        "user": 2,
-        "nim": "",
-        "npp": "34567",
-        "address": "semarang",
-        "phone": "",
-        "level": "sp",
-        "status": "a",
-        "supervisor": null,
-        "expertise": []
-    }
+  "model": "member.expertise",
+  "pk": 7,
+  "fields": {
+    "name": "Software Development",
+    "description": "Developing meaningful software"
+  }
+},
+{
+  "model": "member.member",
+  "pk": 1,
+  "fields": {
+    "user": 6,
+    "nim": "a12345",
+    "npp": "",
+    "address": "india",
+    "phone": "09087654321",
+    "level": "st",
+    "status": "a",
+    "supervisor": 4,
+    "expertise": []
+  }
+},
+{
+  "model": "member.member",
+  "pk": 2,
+  "fields": {
+    "user": 5,
+    "nim": "a2345",
+    "npp": "",
+    "address": "india",
+    "phone": "0876543219",
+    "level": "st",
+    "status": "a",
+    "supervisor": 3,
+    "expertise": []
+  }
+},
+{
+  "model": "member.member",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "nim": "",
+    "npp": "12345",
+    "address": "india",
+    "phone": "0123456789",
+    "level": "sp",
+    "status": "a",
+    "supervisor": null,
+    "expertise": [
+      1,
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "member.member",
+  "pk": 4,
+  "fields": {
+    "user": 8,
+    "nim": "",
+    "npp": "23456",
+    "address": "india",
+    "phone": "0234567891",
+    "level": "sp",
+    "status": "a",
+    "supervisor": null,
+    "expertise": [
+      1
+    ]
+  }
+},
+{
+  "model": "member.member",
+  "pk": 5,
+  "fields": {
+    "user": 7,
+    "nim": "a3456",
+    "npp": "",
+    "address": "india",
+    "phone": "0765432198",
+    "level": "st",
+    "status": "g",
+    "supervisor": 3,
+    "expertise": []
+  }
+},
+{
+  "model": "member.member",
+  "pk": 6,
+  "fields": {
+    "user": 3,
+    "nim": "a45678",
+    "npp": "",
+    "address": "semarang",
+    "phone": "0654321987",
+    "level": "st",
+    "status": "a",
+    "supervisor": 7,
+    "expertise": []
+  }
+},
+{
+  "model": "member.member",
+  "pk": 7,
+  "fields": {
+    "user": 2,
+    "nim": "",
+    "npp": "34567",
+    "address": "semarang",
+    "phone": "",
+    "level": "sp",
+    "status": "a",
+    "supervisor": null,
+    "expertise": [
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "member.member",
+  "pk": 8,
+  "fields": {
+    "user": 9,
+    "nim": "a56789",
+    "npp": "",
+    "address": "India",
+    "phone": "0543219876",
+    "level": "st",
+    "status": "a",
+    "supervisor": null,
+    "expertise": [
+      2,
+      3
+    ]
+  }
 }
 ]

@@ -98,6 +98,20 @@ class SupervisorTesting(APITestCase):
         farhan = Member.objects.get(user__username='farhan')
         self.assertEqual(farhan.supervisor.user.username, 'rancho', farhan)
 
+    def test_student_graduate(self):
+        url = '/supervisors/3/graduated/'
+        self.client.login(username='supervisor', password='qwerty123')
+
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
+
+    def test_student_graduate(self):
+        url = '/supervisors/3/ungraduated/'
+        self.client.login(username='supervisor', password='qwerty123')
+
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
+
 
 class StudentTesting(APITestCase):
 
@@ -151,3 +165,22 @@ class StudentTesting(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST,
                          response.content)
 
+    def test_student_claim(self):
+        self.client.login(username='student', password='qwerty123')
+        url = '/students/1/claim/'
+        data = {'files': None}
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK,
+                         response.content)    
+
+    def test_student_update(self):
+        pass
+        # self.client.login(username='student', password='qwerty123')
+        # url = '/students/1/'
+
+        # data = {'username': 'student', 'password': 'qwerty123',
+        #         'name': 'stud dentmu', 'email': 'studs@gmail.com',
+        #         'address': 'new address', 'level': 'st', 'nim': '0987655354'}
+        # response = self.client.put(url, data, format='json')
+        # self.assertEqual(response.status_code, status.HTTP_100_CONTINUE,
+        #                  response.content)
