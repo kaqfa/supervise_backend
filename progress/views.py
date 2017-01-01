@@ -32,8 +32,8 @@ class StudentTaskViewsets(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        member = Member.objects.get(user=request.user)
-        return StudentTask.objects.filter(student=member)
+        # member = Member.objects.get(user=self.request.user)
+        return StudentTask.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -42,6 +42,9 @@ class StudentTaskViewsets(viewsets.ModelViewSet):
 
     @list_route(methods=['get'])
     def student_task(self, request):
+        """Menampilkan semua task yang diberikan pada student.
+        Berbeda dengan list yang menampilkan semua student task
+        milik semua student"""
         student = Member.objects.get(user=self.request.user)
         studenttasks = StudentTask.objects.filter(student=student)
         task = StudentTaskSerializer(studenttasks, many=True)

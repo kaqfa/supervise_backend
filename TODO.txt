@@ -1,0 +1,7 @@
+Changing plan:
+
+- Task hanya berurusan dengan Template saja, tidak berelasi dengan StudentTask
+- Sehingga input task, hubungannya dengan input Template Task
+- Ketika template di-assign ke mahasiswa, maka program meng-copy TemplateTask 
+  ke StudentTask
+- StudentTask berisi beberapa field yang sama dengan TemplateTask, plus comment dll

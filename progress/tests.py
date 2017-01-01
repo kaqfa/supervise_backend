@@ -77,6 +77,23 @@ class TaskTest(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_update_student_task(self):
+        url = '/tasks/2/'
+        self.client.login(username='supervisor', password='qwerty123')
+
+        data = {'name': 'tugas update', 'description': 'membuat tugas update',
+                'duration': 10}
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.content)
+        self.assertEqual(response.data['name'], 'tugas update')
+
+    def test_delete_student_task(self):
+        url = '/tasks/2/'
+        self.client.login(username='supervisor', password='qwerty123')
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
     def test_student_task(self):
         url = '/tasks/student_task/'
         self.client.login(username='supervisor', password='qwerty123')

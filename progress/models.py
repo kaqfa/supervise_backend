@@ -75,12 +75,22 @@ class StudentTask(models.Model):
                      ('3', 'sudah dikerjakan'), ('4', 'kerjakan kembali'))
 
     student = models.ForeignKey(Member)
-    task = models.ForeignKey(Task)
+    task = models.ForeignKey(Task, null=True, blank=True)
+    name = models.CharField(max_length=100, default='')
+    description = models.TextField(null=True)
+    duration = models.SmallIntegerField(default=1)
+    files = models.ManyToManyField(MediaFile, blank=True)
     status = models.CharField(max_length=1, default='1', choices=STATUS_CHOICE)
     created_date = models.DateField(auto_now_add=True)
-    end_date = models.DateField()
+    end_date = models.DateField(null=True)
 
-    # def get_student()
+    def save(self, *args, **kwargs):
+        if not self.pk and self.task != None:
+            self.name = self.task.name
+            self.description = self.task.description
+            self.duration = self.task.duration
+
+        super(StudentTask, self).save(*args, **kwargs)
 
 
 class Comment(models.Model):

@@ -63,12 +63,12 @@ class TemplateSerializer(serializers.ModelSerializer):
 
 
 class StudentTaskSerializer(serializers.ModelSerializer):
-    task = TaskSerializer()
-    comment_set = CommentSerializer(many=True)
+    # task = TaskSerializer(allow_null=True)
+    comment_set = CommentSerializer(many=True, allow_null=True)
 
     class Meta:
         model = StudentTask
-        fields = ('student', 'task', 'status', 'comment_set', 'created_date', 'end_date')
+        fields = ('student', 'status', 'comment_set', 'created_date', 'end_date')
 
 
 class StudentProgressSerializer(serializers.Serializer):
